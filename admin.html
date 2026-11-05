@@ -98,6 +98,7 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
       <div class="row"><label class="pick" style="margin:0"><input type="checkbox" id="selAll"> Alle auswählen</label><span class="sel" id="selInfo"></span></div>
       <div class="row"><button class="btn ghost" id="bPack">Packliste</button><button class="btn" id="bPdf">Versandscheine + Übersichten PDF</button></div>
       <div class="row"><span class="sel">Format:</span><select id="fmt"><option value="a4">A4 – 4 Scheine pro Seite</option><option value="a6">A6 – Etikettendrucker</option></select><button class="btn ok" id="bShip">Ausgewählte versendet ✓</button></div>
+      <div id="pdfOut" class="row"></div>
       <div id="packOut"></div>
     </div>
     <div id="list"></div>
@@ -261,53 +262,57 @@ $("bPdf").onclick = () => {
     doc.setFontSize(7.5); doc.setTextColor(120);
     doc.text(`Bestellt ${new Date(o.created_at).toLocaleDateString("de-AT")}${o.tel ? " · Tel. " + o.tel : ""}`, L, y + Hh - 9);
   });
-  // Pro Bestellung eine A4-Bestellübersicht anhängen
-  l.forEach(o => { doc.addPage("a4", "portrait"); uebersicht(doc, o); });
-  const name = `Versand_${new Date().toISOString().slice(0,10)}.pdf`;
-  try{ window.open(doc.output("bloburl"), "_blank") || doc.save(name); }catch{ doc.save(name); }
-  toast(`${l.length} Versandscheine + Bestellübersichten erstellt`);
+  const tag = new Date().toISOString().slice(0,10);
+  const liste = gesamtliste(l);
+  const files = [[doc, `Versandscheine_${tag}.pdf`, "Versandscheine"], [liste, `Bestelluebersicht_${tag}.pdf`, "Bestellübersicht"]];
+  $("pdfOut").innerHTML = files.map(([d, n, t]) => `<a class="btn ghost" href="${d.output("bloburl")}" download="${n}" target="_blank">📄 ${t} öffnen</a>`).join("");
+  files.forEach(([d, n]) => d.save(n));
+  toast(`Versandscheine + Bestellübersicht erstellt (${l.length})`);
 };
-function uebersicht(doc, o){
-  const L = 20, R = 190; let y = 24;
-  const e = n => Number(n).toLocaleString("de-AT", { minimumFractionDigits:2, maximumFractionDigits:2 }) + " EUR";
-  doc.setTextColor(27,51,88); doc.setFont("helvetica","bold"); doc.setFontSize(18); doc.text("PINPOINT MEDICAL", L, y);
-  doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(90); doc.text("Medizinisches Verbrauchsmaterial", L, y + 6);
-  doc.setFontSize(8.5); doc.text(ABSENDER.slice(1).concat(["info@pinpointmedical.shop", "www.pinpointmedical.shop"]), R, y - 4, { align:"right" });
-  y += 16; doc.setDrawColor(27,51,88); doc.setLineWidth(0.6); doc.line(L, y, R, y);
-  y += 14; doc.setTextColor(27,51,88); doc.setFont("helvetica","bold"); doc.setFontSize(16); doc.text("Bestellübersicht / Lieferschein", L, y);
-  y += 12; doc.setFontSize(8.5); doc.setTextColor(90); doc.setFont("helvetica","normal");
-  doc.text("LIEFERADRESSE", L, y); doc.text("BESTELLUNG", 120, y);
-  doc.setTextColor(0); doc.setFontSize(11);
-  const adr = [o.name, o.strasse, `${o.plz} ${o.ort}`, LAND[o.land] || o.land].concat(o.email ? [o.email] : []).concat(o.tel ? [o.tel] : []);
-  adr.forEach((t, i) => { doc.setFont("helvetica", i ? "normal" : "bold"); doc.text(String(t), L, y + 7 + i * 5.5); });
-  const info = [["Bestellnummer", "#" + o.code], ["Bestelldatum", new Date(o.created_at).toLocaleDateString("de-AT")],
-    ["Bezahlt am", o.bezahlt_am ? new Date(o.bezahlt_am).toLocaleDateString("de-AT") : "–"], ["Zahlungsart", "Online (SumUp)"], ["Versanddatum", new Date().toLocaleDateString("de-AT")]];
-  doc.setFontSize(10);
-  info.forEach(([k, v], i) => { doc.setFont("helvetica","normal"); doc.setTextColor(90); doc.text(k, 120, y + 7 + i * 5.5); doc.setTextColor(0); doc.setFont("helvetica","bold"); doc.text(v, R, y + 7 + i * 5.5, { align:"right" }); });
-  y += 7 + Math.max(adr.length, info.length) * 5.5 + 10;
-  // Tabelle
-  doc.setFillColor(243,245,248); doc.rect(L, y - 5.5, R - L, 8.5, "F");
-  doc.setFont("helvetica","bold"); doc.setFontSize(9.5); doc.setTextColor(27,51,88);
-  doc.text("Menge", L + 2, y); doc.text("Artikel", L + 20, y); doc.text("Einzelpreis", 150, y, { align:"right" }); doc.text("Summe", R - 2, y, { align:"right" });
-  y += 9; doc.setFont("helvetica","normal"); doc.setTextColor(0); doc.setFontSize(10);
-  (o.positionen || []).forEach(p => {
-    const t = doc.splitTextToSize(p.name + (p.variante ? "\n" + p.variante : ""), 95);
-    doc.text(String(p.menge) + "×", L + 2, y); doc.text(t, L + 20, y);
-    doc.text(e(p.preis), 150, y, { align:"right" }); doc.text(e(p.preis * p.menge), R - 2, y, { align:"right" });
-    y += 5 * t.length + 3; doc.setDrawColor(225); doc.setLineWidth(0.2); doc.line(L, y - 2.5, R, y - 2.5); y += 3;
+function gesamtliste(l){
+  const doc = new jspdf.jsPDF({ unit:"mm", format:"a4" });
+  const L = 14, R = 196, e = n => Number(n).toLocaleString("de-AT", { minimumFractionDigits:2, maximumFractionDigits:2 }) + " €";
+  const datum = new Date().toLocaleDateString("de-AT"), summe = l.reduce((s, o) => s + Number(o.gesamt), 0);
+  let y = 0, seite = 1;
+  const kopf = () => {
+    doc.setTextColor(27,51,88); doc.setFont("helvetica","bold"); doc.setFontSize(15); doc.text("PINPOINT MEDICAL – Bestellübersicht", L, 16);
+    doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(90);
+    doc.text(`${datum} · ${l.length} Bestellungen · ${e(summe)} · Seite ${seite}`, L, 22);
+    doc.setDrawColor(27,51,88); doc.setLineWidth(0.5); doc.line(L, 25, R, 25); y = 32;
+  };
+  const tabKopf = () => {
+    doc.setFillColor(243,245,248); doc.rect(L, y - 5, R - L, 8, "F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(27,51,88);
+    doc.text("Bestellung", L + 9, y); doc.text("Kunde / Adresse", L + 38, y); doc.text("Artikel", L + 100, y); doc.text("Betrag", R - 2, y, { align:"right" });
+    y += 8;
+  };
+  kopf();
+  // Packliste oben
+  const sum = {}; l.forEach(o => (o.positionen || []).forEach(p => { const k = p.name + (p.variante ? " – " + p.variante : ""); sum[k] = (sum[k] || 0) + p.menge; }));
+  doc.setFont("helvetica","bold"); doc.setFontSize(10); doc.setTextColor(27,51,88); doc.text("Packliste gesamt", L, y); y += 6;
+  doc.setFont("helvetica","normal"); doc.setFontSize(9.5); doc.setTextColor(0);
+  Object.entries(sum).sort().forEach(([k, n]) => { doc.rect(L, y - 3.2, 3.5, 3.5); doc.setFont("helvetica","bold"); doc.text(n + "×", L + 6, y); doc.setFont("helvetica","normal"); doc.text(k, L + 16, y); y += 5.5; });
+  y += 6; tabKopf();
+  [...l].sort((a, b) => new Date(a.created_at) - new Date(b.created_at)).forEach((o, i) => {
+    const adr = [o.name, o.strasse, `${o.plz} ${o.ort}`, LAND[o.land] || o.land];
+    doc.setFont("helvetica","normal"); doc.setFontSize(9);
+    const art = (o.positionen || []).flatMap(p => doc.splitTextToSize(`${p.menge}× ${p.name}${p.variante ? " (" + p.variante + ")" : ""}`, 60));
+    if (o.notiz) art.push(...doc.splitTextToSize("Notiz: " + o.notiz, 60));
+    const h = Math.max(adr.length, art.length, 2) * 4.6 + 4;
+    if (y + h > 282){ doc.addPage(); seite++; kopf(); tabKopf(); }
+    doc.setDrawColor(27,51,88); doc.setLineWidth(0.3); doc.rect(L + 1.5, y - 3.2, 4, 4);
+    doc.setFont("helvetica","bold"); doc.setFontSize(9.5); doc.setTextColor(27,51,88); doc.text("#" + o.code, L + 9, y);
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(110);
+    doc.text(new Date(o.created_at).toLocaleDateString("de-AT"), L + 9, y + 4.6); doc.text(String(i + 1) + ". von " + l.length, L + 9, y + 9.2);
+    doc.setTextColor(0); doc.setFontSize(9);
+    adr.forEach((t, j) => { doc.setFont("helvetica", j ? "normal" : "bold"); doc.text(doc.splitTextToSize(String(t), 58)[0], L + 38, y + j * 4.6); });
+    doc.setFont("helvetica","normal");
+    art.forEach((t, j) => { if (t.startsWith("Notiz:")) doc.setTextColor(178,106,0); doc.text(t, L + 100, y + j * 4.6); doc.setTextColor(0); });
+    doc.setFont("helvetica","bold"); doc.text(e(o.gesamt), R - 2, y, { align:"right" });
+    doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(110); doc.text(Number(o.versand) ? "inkl. Versand" : "Versand gratis", R - 2, y + 4.6, { align:"right" });
+    y += h; doc.setDrawColor(220); doc.setLineWidth(0.2); doc.line(L, y - 3.5, R, y - 3.5); y += 2;
   });
-  const zeile = (k, v, b) => { doc.setFont("helvetica", b ? "bold" : "normal"); doc.setFontSize(b ? 12 : 10); doc.text(k, 150, y, { align:"right" }); doc.text(v, R - 2, y, { align:"right" }); y += b ? 8 : 6; };
-  y += 2; zeile("Zwischensumme", e(o.zwischensumme)); zeile("Versand", Number(o.versand) ? e(o.versand) : "gratis");
-  doc.setDrawColor(27,51,88); doc.setLineWidth(0.4); doc.line(110, y - 3, R, y - 3); y += 2;
-  doc.setTextColor(27,51,88); zeile("Gesamt (bezahlt)", e(o.gesamt), true);
-  doc.setFont("helvetica","normal"); doc.setFontSize(8.5); doc.setTextColor(90); doc.text("Alle Preise inkl. gesetzlicher USt.", R - 2, y, { align:"right" });
-  if (o.notiz){ y += 12; doc.setFontSize(8.5); doc.text("ANMERKUNG DES KUNDEN", L, y); doc.setTextColor(0); doc.setFontSize(10); doc.text(doc.splitTextToSize(o.notiz, R - L), L, y + 6); }
-  // Fuß
-  doc.setFontSize(8.5); doc.setTextColor(110);
-  doc.text(["Vielen Dank für deine Bestellung!", "Ungeöffnete, versiegelte Ware kannst du innerhalb von 14 Tagen zurückgeben. Geöffnete Sterilverpackungen sind aus",
-    "Hygienegründen ausgeschlossen. Gebrauchte Kanülen bitte in einem durchstichsicheren Behälter in der Apotheke entsorgen.",
-    "Fragen zur Bestellung: info@pinpointmedical.shop – bitte Bestellnummer angeben."], L, 262);
-  doc.setDrawColor(200); doc.line(L, 283, R, 283); doc.text("Pinpoint Medical · Jubal Pfister · Millöckergasse 39, 8010 Graz · www.pinpointmedical.shop", 105, 288, { align:"center" });
+  return doc;
 }
 $("bShip").onclick = async () => {
   const l = auswahl(); if (!l.length) return;
@@ -315,7 +320,7 @@ $("bShip").onclick = async () => {
   $("bShip").disabled = true;
   const { error } = await sb.from("pm_bestellungen").update({ status:"versendet", versendet_am:new Date().toISOString(), bearbeitet_von: ME }).in("id", l.map(o => o.id)).eq("status", "bezahlt");
   if (error) { $("bShip").disabled = false; return toast("Fehler: " + error.message); }
-  SEL.clear(); $("packOut").innerHTML = ""; toast(`${l.length} als versendet markiert`); ladeBestellungen();
+  SEL.clear(); $("packOut").innerHTML = ""; $("pdfOut").innerHTML = ""; toast(`${l.length} als versendet markiert`); ladeBestellungen();
 };
 
 $("list").addEventListener("click", async e => {
