@@ -10,3 +10,11 @@ Online-Shop für Medizinbedarf (bakteriostatisches Wasser, Insulinspritzen, Alko
 
 ## Zahlung
 Edge Function `pm-zahlung` erstellt den SumUp-Checkout (gleiches SumUp-Konto wie AlkExpress) und prüft die Zahlung serverseitig. Preise berechnet die Datenbank, nicht der Browser.
+
+## Hosting
+Cloudflare Workers (Static Assets), Konfiguration in `wrangler.jsonc`. Push auf `main` = Deploy. `.assetsignore` hält README, `supabase/` usw. aus der öffentlichen Seite raus. Schriften liegen selbst gehostet in `fonts/` (keine Verbindung zu Google).
+
+## Automatik (Supabase)
+- pg_cron `pm-offene-stornieren`: unbezahlte Bestellungen nach 60 Min. → `storniert`
+- Trigger `pm_mail` → Edge Function `pm-mail` (Quelle in `supabase/functions/pm-mail`): Bestellbestätigung bei `bezahlt`, Versandmail mit Sendungsnummer bei `versendet` (Resend, Absender bestellung@pinpointmedical.shop, Secret `RESEND_API_KEY`)
+

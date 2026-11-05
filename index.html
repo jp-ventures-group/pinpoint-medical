@@ -13,9 +13,20 @@ if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().the
 <title>Pinpoint Medical — CE-zertifiziertes medizinisches Verbrauchsmaterial</title>
 <meta name="description" content="Spritzen, Nadeln, BAC Water und Alkoholtupfer – CE-zertifiziert, steril, schnell geliefert. Apothekenqualität ohne Apothekenpreise.">
 <meta name="theme-color" content="#1B3358">
+<link rel="canonical" href="https://pinpointmedical.shop/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pinpoint Medical">
+<meta property="og:locale" content="de_AT">
+<meta property="og:url" content="https://pinpointmedical.shop/">
+<meta property="og:title" content="Pinpoint Medical – Apothekenqualität ohne Apothekenpreise">
+<meta property="og:description" content="Spritzen, Nadeln, BAC Water und Alkoholtupfer – CE-zertifiziert, steril, schnell geliefert.">
+<meta property="og:image" content="https://pinpointmedical.shop/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B3358'/%3E%3Crect x='13' y='5' width='6' height='4' rx='1' fill='%23fff'/%3E%3Cpath d='M12 11h8v13a4 4 0 0 1-8 0z' fill='%23fff'/%3E%3Cpath d='M16 15c-1.6 2.2-2.4 3.4-2.4 4.4a2.4 2.4 0 0 0 4.8 0c0-1-.8-2.2-2.4-4.4z' fill='%233E8E8E'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@500;800&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
 <style>
 :root{--navy:#1B3358;--navy2:#142846;--blue:#36679A;--teal:#3E8E8E;--ink:#1B2B40;--muted:#5B6878;--line:#E1E5EC;--bg:#F3F5F8;--card:#fff;--ok:#1C7C4A;--err:#B3261E;--r:14px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
@@ -333,7 +344,7 @@ const CONFIG = {
     email: "info@pinpointmedical.shop",
     gegenstand: "Einzelhandel mit medizinischen Verbrauchsmaterialien (Einwegspritzen, Nadeln, Zubehör)",
     gewerbe: "Handelsgewerbe, Gewerbebehörde: Magistrat Graz",
-    uid: "[UID-Nummer, falls vorhanden]",
+    uid: ""  // UID-Nummer eintragen, sobald vorhanden – leer = Zeile wird nicht angezeigt,
     kammer: "Wirtschaftskammer Steiermark"
   }
 };
@@ -533,7 +544,7 @@ const LEGAL = {
     <h3>Betreiber des Webshops</h3><p>${I.name}<br>${I.address}</p>
     <h3>Kontakt</h3><p>E-Mail: ${I.email}<br>Website: www.pinpointmedical.shop</p>
     <h3>Unternehmensgegenstand</h3><p>${I.gegenstand}</p>
-    <h3>Gewerbe</h3><p>${I.gewerbe}<br>UID: ${I.uid}<br>Mitglied der ${I.kammer}<br>Anwendbare Rechtsvorschriften: Gewerbeordnung (GewO 1994), abrufbar unter ris.bka.gv.at</p>
+    <h3>Gewerbe</h3><p>${I.gewerbe}<br>${I.uid ? `UID: ${I.uid}<br>` : ""}Mitglied der ${I.kammer}<br>Anwendbare Rechtsvorschriften: Gewerbeordnung (GewO 1994), abrufbar unter ris.bka.gv.at</p>
     <h3>Haftungsausschluss</h3><p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für Richtigkeit, Vollständigkeit und Aktualität übernimmt der Betreiber keine Gewähr. Die angebotenen Medizinprodukte dienen ausschließlich dem bestimmungsgemäßen Gebrauch.</p>`,
   agb: `<h2>AGB</h2>
     <h3>Geltungsbereich</h3><p>Diese Bedingungen gelten für alle Bestellungen bei Pinpoint Medical (${I.name}) über pinpointmedical.shop.</p>
@@ -549,6 +560,8 @@ const LEGAL = {
   datenschutz: `<h2>Datenschutzerklärung</h2>
     <p>Bestellung: Wir verarbeiten Name, E-Mail, optional Telefonnummer, Lieferadresse und bestellte Produkte zur Abwicklung und zum Versand (Art. 6 Abs. 1 lit. b DSGVO).</p>
     <p>Speicherung: Bestellungen liegen in unserer Datenbank (Auftragsverarbeiter: Supabase Inc.). Belegdaten bewahren wir 7 Jahre auf (§ 132 BAO).</p>
+    <p>E-Mails: Bestellbestätigung und Versandinfo versenden wir über Resend Inc. (Auftragsverarbeiter). Dafür werden deine E-Mail-Adresse, dein Name und die Bestelldaten übermittelt.</p>
+    <p>Hosting: Die Website wird über Cloudflare Inc. ausgeliefert; dabei wird technisch bedingt deine IP-Adresse verarbeitet (Art. 6 Abs. 1 lit. f DSGVO). Schriften liegen auf unserem eigenen Server, es besteht keine Verbindung zu Google.</p>
     <p>Zahlung: Die Zahlung wickelt SumUp Limited ab. Deine Kartendaten gibst du direkt bei SumUp ein; wir sehen sie nicht.</p>
     <p>Versand: Name und Adresse geben wir an das Versandunternehmen weiter.</p>
     <p>Lokal gespeichert: Warenkorb und – nur wenn du es auswählst – deine Kontaktdaten bleiben in deinem Browser. Keine Tracking-Cookies.</p>

@@ -55,7 +55,7 @@ function bestaetigung(o: any) {
   const html = rahmen(`Danke für deine Bestellung #${o.code} – wir packen sie für dich.`, `
 ${badge(C.ok, "✓ Zahlung erhalten")}
 <h1 style="margin:14px 0 8px;font-size:22px;line-height:1.3;color:${C.navy}">Danke${n ? `, ${esc(n)}` : ""}!</h1>
-<p style="margin:0;font-size:15px;line-height:1.6">Deine Bestellung <b>#${esc(o.code)}</b> ist bezahlt und eingegangen. Wir verpacken sie diskret und schicken sie in der Regel innerhalb von 1–2 Werktagen ab. Sobald das Paket unterwegs ist, bekommst du eine Mail mit der Sendungsnummer.</p>
+<p style="margin:0;font-size:15px;line-height:1.6">Deine Bestellung <b>#${esc(o.code)}</b> ist bezahlt und eingegangen. Wir verpacken sie diskret und schicken sie an Werktagen innerhalb von 24 Stunden ab. Sobald das Paket unterwegs ist, bekommst du eine Mail mit der Sendungsnummer.</p>
 ${positionen(o)}${adresse(o)}
 ${o.notiz ? `<p style="margin:14px 0 0;font-size:13px;color:${C.muted}">Deine Anmerkung: ${esc(o.notiz)}</p>` : ""}`);
   const text = `Danke${n ? `, ${n}` : ""}! Deine Bestellung #${o.code} ist bezahlt und eingegangen.\n\n` +
