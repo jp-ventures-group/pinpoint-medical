@@ -1,6 +1,6 @@
 # Pinpoint Medical
 
-Online-Shop für Medizinbedarf (bakteriostatisches Wasser, Insulinspritzen, Alkoholtupfer). Statische Seite für GitHub Pages, Daten in Supabase, Zahlung ausschließlich online über SumUp.
+Online-Shop für Medizinbedarf (bakteriostatisches Wasser, Insulinspritzen, Alkoholtupfer). Statische Seite auf Cloudflare Workers (Static Assets), Daten in Supabase, Zahlung ausschließlich online über SumUp.
 
 ## Anpassen
 - `CONFIG` oben im `<script>` von `index.html`: Kontakt-E-Mail, Impressum (vor Livegang ausfüllen)
