@@ -107,7 +107,7 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
     <div id="bulk" class="bulk hidden">
       <div class="row"><label class="pick" style="margin:0"><input type="checkbox" id="selAll"> Alle auswählen</label><span class="sel" id="selInfo"></span></div>
       <div class="row"><button class="btn ghost" id="bPack">Packliste</button><button class="btn" id="bPdf">Versandscheine + Übersichten PDF</button></div>
-      <div class="row"><span class="sel">Format:</span><select id="fmt"><option value="a4">A4 – 4 Scheine pro Seite</option><option value="a6">A6 – Etikettendrucker</option></select><button class="btn ok" id="bShip">Ausgewählte versendet ✓</button></div>
+      <div class="row"><span class="sel">Format:</span><select id="fmt"><option value="a4">A4 quer – 4 Scheine pro Seite</option><option value="a6">A6 quer – 1 Schein pro Seite</option></select><button class="btn ok" id="bShip">Ausgewählte versendet ✓</button></div>
       <div id="pdfOut" class="row"></div>
       <div id="packOut"></div>
     </div>
@@ -136,7 +136,7 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
 <div class="toast" id="toast"></div>
 
 <script>
-window.APP_VERSION = "6"; // bei jedem Update erhöhen
+window.APP_VERSION = "7"; // bei jedem Update erhöhen
 const SUPA_URL = "https://smjspmfvdjvyohpoqxgl.supabase.co";
 const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtanNwbWZ2ZGp2eW9ocG9xeGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NDI0NjcsImV4cCI6MjEwOTAxODQ2N30.qigoZ7S6dn5lZDXcOxsTQDolnVPsaod2UH-9Ns1M5ak";
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
@@ -247,25 +247,28 @@ $("bPdf").onclick = () => {
   const l = auswahl(); if (!l.length) return;
   if (!window.jspdf) return toast("PDF-Modul nicht geladen – Seite neu laden");
   const a6 = $("fmt").value === "a6";
-  const doc = new jspdf.jsPDF({ unit:"mm", format: a6 ? [105,148] : "a4" });
-  const W = 105, Hh = 148;
+  // Querformat: A6 quer (148 × 105 mm), bei A4 vier Stück auf einem A4-Querblatt
+  const W = 148.5, Hh = 105;
+  const doc = new jspdf.jsPDF({ unit:"mm", orientation:"landscape", format: a6 ? [148, 105] : "a4" });
   l.forEach((o, i) => {
     let x = 0, y = 0;
-    if (a6){ if (i) doc.addPage([105,148]); }
-    else { const k = i % 4; if (i && !k) doc.addPage(); x = (k % 2) * W; y = Math.floor(k / 2) * Hh;
-      doc.setDrawColor(190); doc.setLineDashPattern([1.5,1.5],0); doc.line(105,0,105,297); doc.line(0,148.5,210,148.5); doc.setLineDashPattern([],0); }
-    const m = 10, L = x + m, R = x + W - m;
-    // Absender
-    doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(110); doc.text("ABSENDER", L, y + 14);
-    doc.setTextColor(0); doc.setFontSize(9.5);
-    ABSENDER.forEach((t, j) => { doc.setFont("helvetica", j ? "normal" : "bold"); doc.text(t, L, y + 19.5 + j * 4.5); });
-    doc.setDrawColor(27,51,88); doc.setLineWidth(0.4); doc.line(L, y + 48, R, y + 48);
-    // Empfänger
-    doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(110); doc.text("EMPFÄNGER", L, y + 60);
-    doc.setTextColor(0); let yy = y + 69;
-    [o.name, o.strasse, `${o.plz} ${o.ort}`, (LAND[o.land] || o.land).toUpperCase()].forEach((t, j) => {
-      doc.setFont("helvetica", j === 0 || j === 3 ? "bold" : "normal"); doc.setFontSize(15);
-      const w = doc.splitTextToSize(String(t), W - 2*m); doc.text(w, L, yy); yy += 7.5 * w.length; });
+    if (a6){ if (i) doc.addPage([148, 105], "landscape"); }
+    else { const k = i % 4; if (i && !k) doc.addPage("a4", "landscape"); x = (k % 2) * W; y = Math.floor(k / 2) * Hh;
+      doc.setDrawColor(190); doc.setLineWidth(0.2); doc.setLineDashPattern([1.5,1.5],0); doc.line(148.5,0,148.5,210); doc.line(0,105,297,105); doc.setLineDashPattern([],0); }
+    // Absender oben links
+    doc.setFont("helvetica","normal"); doc.setFontSize(6.5); doc.setTextColor(120); doc.text("ABSENDER", x + 9, y + 10);
+    doc.setTextColor(40); doc.setFontSize(8.5);
+    ABSENDER.forEach((t, j) => { doc.setFont("helvetica", j ? "normal" : "bold"); doc.text(t, x + 9, y + 14.5 + j * 3.8); });
+    // Empfänger unten rechts
+    const EX = x + 62, EW = W - 62 - 9;
+    const zeilen = [o.name, o.strasse, `${o.plz} ${o.ort}`, (LAND[o.land] || o.land).toUpperCase()];
+    doc.setFontSize(13);
+    const teile = zeilen.map((t, j) => { doc.setFont("helvetica", j === 0 || j === 3 ? "bold" : "normal"); return doc.splitTextToSize(String(t), EW); });
+    const n = teile.reduce((s, w) => s + w.length, 0);
+    let yy = y + Hh - 12 - (n - 1) * 6.2;
+    doc.setFont("helvetica","normal"); doc.setFontSize(6.5); doc.setTextColor(120); doc.text("EMPFÄNGER", EX, yy - 7);
+    doc.setTextColor(0); doc.setFontSize(13);
+    teile.forEach((w, j) => { doc.setFont("helvetica", j === 0 || j === 3 ? "bold" : "normal"); doc.text(w, EX, yy); yy += 6.2 * w.length; });
   });
   const tag = new Date().toISOString().slice(0,10);
   const liste = gesamtliste(l);
