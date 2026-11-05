@@ -73,6 +73,8 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
 @media(max-width:600px){.prod{grid-template-columns:1fr 1fr}.prod>div:first-child{grid-column:1/-1}}
 .bulk{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px;display:grid;gap:10px}
 .bulk .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bulk .btn{flex:1;min-width:140px;padding:10px 12px;font-size:14px}
+#pdfOut a{text-decoration:none;flex:1}
+.pdfbox{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pdfcol{display:grid;gap:8px;align-content:start}.pdfcol .btn,.pdfcol select{width:100%;min-width:0}.pdfcol select{font-size:13px;padding:9px 8px}
 .bulk .sel{font-size:14px;color:var(--muted)}.bulk select{width:auto;padding:8px;font-size:14px}
 .pick{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--navy);font-size:14px;margin:0 0 10px}.pick input{width:22px;height:22px}
 .pack{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px}.pack b{color:var(--navy)}
@@ -107,8 +109,12 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
     <div class="filter"><input id="q" placeholder="Suchen: Name, Code, Ort, E-Mail …"></div>
     <div id="bulk" class="bulk hidden">
       <div class="row"><label class="pick" style="margin:0"><input type="checkbox" id="selAll"> Alle auswählen</label><span class="sel" id="selInfo"></span></div>
-      <div class="row"><button class="btn ghost" id="bPack">Packliste</button><button class="btn" id="bPdf">Versandscheine + Übersichten PDF</button></div>
-      <div class="row"><span class="sel">Format:</span><select id="fmt"><option value="a4">A4 quer – 4 Scheine pro Seite</option><option value="a6">A6 quer – 1 Schein pro Seite</option></select><button class="btn ok" id="bShip">Ausgewählte versendet ✓</button></div>
+      <div class="pdfbox">
+        <div class="pdfcol"><button class="btn" id="bPdf">📮 Versandscheine</button>
+          <select id="fmt" aria-label="Format"><option value="a4">A4 · 4 pro Blatt</option><option value="a6">A6 · einzeln</option></select></div>
+        <div class="pdfcol"><button class="btn" id="bList">📋 Bestellübersicht</button><button class="btn ghost" id="bPack">Packliste anzeigen</button></div>
+      </div>
+      <button class="btn ok" id="bShip" style="width:100%">Ausgewählte als versendet markieren ✓</button>
       <div id="pdfOut" class="row"></div>
       <div id="packOut"></div>
     </div>
@@ -140,7 +146,7 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
 <div class="toast" id="toast"></div>
 
 <script>
-window.APP_VERSION = "9"; // bei jedem Update erhöhen
+window.APP_VERSION = "10"; // bei jedem Update erhöhen
 const SUPA_URL = "https://smjspmfvdjvyohpoqxgl.supabase.co";
 const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtanNwbWZ2ZGp2eW9ocG9xeGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NDI0NjcsImV4cCI6MjEwOTAxODQ2N30.qigoZ7S6dn5lZDXcOxsTQDolnVPsaod2UH-9Ns1M5ak";
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
@@ -238,7 +244,7 @@ function bulkInfo(){
   $("bulk").classList.toggle("hidden", TAB !== "todo" || !todo.length);
   $("selInfo").textContent = SEL.size ? `${SEL.size} von ${todo.length} ausgewählt` : "Nichts ausgewählt";
   $("selAll").checked = todo.length > 0 && SEL.size === todo.length;
-  ["bPack","bPdf","bShip"].forEach(i => $(i).disabled = !SEL.size);
+  ["bPack","bPdf","bList","bShip"].forEach(i => $(i).disabled = !SEL.size);
 }
 $("list").addEventListener("change", e => { const id = e.target.dataset.sel; if (!id) return; e.target.checked ? SEL.add(id) : SEL.delete(id); bulkInfo(); });
 $("selAll").onchange = e => { SEL.clear(); if (e.target.checked) ORDERS.filter(o => o.status === "bezahlt").forEach(o => SEL.add(o.id)); renderOrders(); };
@@ -246,6 +252,16 @@ $("bPack").onclick = () => {
   const sum = {};
   auswahl().forEach(o => (o.positionen || []).forEach(p => { const k = p.name + (p.variante ? " – " + p.variante : ""); sum[k] = (sum[k] || 0) + p.menge; }));
   $("packOut").innerHTML = `<div class="pack"><b>Packliste für ${SEL.size} Bestellungen</b><br>${Object.entries(sum).sort().map(([k, n]) => `<b>${n}×</b> ${esc(k)}`).join("<br>")}</div>`;
+};
+function pdfAusgeben(doc, name, titel){
+  $("pdfOut").innerHTML = `<a class="btn ghost" href="${doc.output("bloburl")}" download="${name}" target="_blank">📄 ${titel} öffnen</a>`;
+  doc.save(name);
+}
+const heute = () => new Date().toISOString().slice(0,10);
+$("bList").onclick = () => {
+  const l = auswahl(); if (!l.length) return;
+  if (!window.jspdf) return toast("PDF-Modul nicht geladen – Seite neu laden");
+  pdfAusgeben(gesamtliste(l), `Bestelluebersicht_${heute()}.pdf`, "Bestellübersicht"); toast(`Bestellübersicht erstellt (${l.length})`);
 };
 $("bPdf").onclick = () => {
   const l = auswahl(); if (!l.length) return;
@@ -274,12 +290,7 @@ $("bPdf").onclick = () => {
     doc.setTextColor(0); doc.setFontSize(13);
     teile.forEach((w, j) => { doc.setFont("helvetica", j === 0 || j === 3 ? "bold" : "normal"); doc.text(w, EX, yy); yy += 6.2 * w.length; });
   });
-  const tag = new Date().toISOString().slice(0,10);
-  const liste = gesamtliste(l);
-  const files = [[doc, `Versandscheine_${tag}.pdf`, "Versandscheine"], [liste, `Bestelluebersicht_${tag}.pdf`, "Bestellübersicht"]];
-  $("pdfOut").innerHTML = files.map(([d, n, t]) => `<a class="btn ghost" href="${d.output("bloburl")}" download="${n}" target="_blank">📄 ${t} öffnen</a>`).join("");
-  files.forEach(([d, n]) => d.save(n));
-  toast(`Versandscheine + Bestellübersicht erstellt (${l.length})`);
+  pdfAusgeben(doc, `Versandscheine_${heute()}.pdf`, "Versandscheine"); toast(`${l.length} Versandscheine erstellt`);
 };
 function gesamtliste(l){
   const doc = new jspdf.jsPDF({ unit:"mm", format:"a4" });
