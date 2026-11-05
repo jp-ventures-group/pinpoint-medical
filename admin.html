@@ -110,10 +110,10 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
     <div id="bulk" class="bulk hidden">
       <div class="row"><label class="pick" style="margin:0"><input type="checkbox" id="selAll"> Alle auswählen</label><span class="sel" id="selInfo"></span></div>
       <div class="pdfbox">
-        <div class="pdfcol"><button class="btn" id="bPdf">📮 Versandscheine</button>
-          <select id="fmt" aria-label="Format"><option value="a4">A4 · 4 pro Blatt</option><option value="a6">A6 · einzeln</option></select></div>
-        <div class="pdfcol"><button class="btn" id="bList">📋 Bestellübersicht</button><button class="btn ghost" id="bPack">Packliste anzeigen</button></div>
+        <div class="pdfcol"><button class="btn" id="bPdf">📮 Versandscheine</button></div>
+        <div class="pdfcol"><button class="btn" id="bList">📋 Bestellübersicht</button></div>
       </div>
+      <button class="btn ghost" id="bPack" style="width:100%">Packliste anzeigen</button>
       <button class="btn ok" id="bShip" style="width:100%">Ausgewählte als versendet markieren ✓</button>
       <div id="pdfOut" class="row"></div>
       <div id="packOut"></div>
@@ -146,7 +146,7 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
 <div class="toast" id="toast"></div>
 
 <script>
-window.APP_VERSION = "10"; // bei jedem Update erhöhen
+window.APP_VERSION = "11"; // bei jedem Update erhöhen
 const SUPA_URL = "https://smjspmfvdjvyohpoqxgl.supabase.co";
 const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtanNwbWZ2ZGp2eW9ocG9xeGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NDI0NjcsImV4cCI6MjEwOTAxODQ2N30.qigoZ7S6dn5lZDXcOxsTQDolnVPsaod2UH-9Ns1M5ak";
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
@@ -266,7 +266,7 @@ $("bList").onclick = () => {
 $("bPdf").onclick = () => {
   const l = auswahl(); if (!l.length) return;
   if (!window.jspdf) return toast("PDF-Modul nicht geladen – Seite neu laden");
-  const a6 = $("fmt").value === "a6";
+  const a6 = true; // immer 1 Versandschein pro Seite (A6 quer)
   // Querformat: A6 quer (148 × 105 mm), bei A4 vier Stück auf einem A4-Querblatt
   const W = 148.5, Hh = 105;
   const doc = new jspdf.jsPDF({ unit:"mm", orientation:"landscape", format: a6 ? [148, 105] : "a4" });
