@@ -34,6 +34,17 @@ nav{display:flex;gap:28px}nav a{color:#4A5568;text-decoration:none;font-size:14p
 .cartbtn .n{position:absolute;top:2px;right:0;background:var(--blue);color:#fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 5px}
 .cartbtn .n:empty,.cartbtn .n[data-z]{display:none}
 @media(max-width:720px){nav{display:none}header .wrap{grid-template-columns:1fr auto}}
+.hr{gap:4px;align-items:center}
+.menubtn{border:0;background:none;color:var(--navy);width:40px;height:40px;border-radius:10px;display:grid;place-items:center}.menubtn:hover{background:#E6EAF0}
+.mscrim{position:fixed;inset:0;background:rgba(20,40,70,.35);opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}.mscrim.on{opacity:1;pointer-events:auto}
+.menu{position:fixed;top:0;right:0;width:min(320px,86%);height:100%;background:#fff;z-index:35;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
+.menu.on{transform:none}
+.menu .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.menu .mh b{color:var(--navy);font-weight:800}
+.menu a{display:flex;align-items:center;gap:12px;padding:13px 10px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:16px}
+.menu a:hover{background:var(--bg)}.menu a svg{color:var(--blue);flex:none}
+.menu .hl{background:#EEF3F9;color:var(--navy)}
+.menu hr{border:0;border-top:1px solid var(--line);margin:8px 0}
+.menu .login{margin-top:auto;background:var(--navy);color:#fff;justify-content:center}.menu .login svg{color:#fff}.menu .login:hover{background:var(--navy2)}
 /* Hero */
 .hero{text-align:center;padding:56px 0 20px}
 .logo{width:min(420px,86%);height:auto;display:block;margin:0 auto 26px}
@@ -164,7 +175,7 @@ dialog::backdrop{background:rgba(20,40,70,.5)}dialog h2{font-size:22px}dialog h3
 <header><div class="wrap">
   <a class="brand" href="#">PINPOINTMEDICAL</a>
   <nav><a href="#shop">Shop</a><a href="#guides">Guides</a><a href="#qualitaet">Qualitätszertifikate</a><a href="#kontakt">Kontakt</a></nav>
-  <div class="hr"><button class="cartbtn" id="openCart" aria-label="Warenkorb öffnen"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2.5 3h2.4l2.4 11.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.5L21.5 7H6"/></svg><span class="n" id="count"></span></button></div>
+  <div class="hr"><button class="cartbtn" id="openCart" aria-label="Warenkorb öffnen"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2.5 3h2.4l2.4 11.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.5L21.5 7H6"/></svg><span class="n" id="count"></span></button><button class="menubtn" id="openMenu" aria-label="Menü öffnen"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
 </div></header>
 
 <main>
@@ -291,6 +302,17 @@ dialog::backdrop{background:rgba(20,40,70,.5)}dialog h2{font-size:22px}dialog h3
   <div class="copy">© <span id="yr"></span> Pinpoint Medical · Jubal Pfister · Graz, Österreich</div>
 </div></footer>
 
+<div class="mscrim" id="mscrim"></div>
+<aside class="menu" id="menu" aria-label="Menü" aria-hidden="true">
+  <div class="mh"><b>PINPOINTMEDICAL</b><button class="x" id="closeMenu" aria-label="Menü schließen">✕</button></div>
+  <a href="#shop"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg>Shop</a>
+  <a href="#guides" data-g="rechner" class="hl"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 19h2M12 19h2M16 15v4"/></svg>Dosierrechner</a>
+  <a href="#guides" data-g="rekon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4M20 4l-3 3M17 7 7 17l-3 1 1-3L15 5z"/><path d="m4 20-2 2"/></svg>Rekonstitution – Anleitung</a>
+  <a href="#qualitaet"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>Qualitätszertifikate</a>
+  <a href="#faq"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h0"/></svg>Häufige Fragen</a>
+  <a href="#kontakt"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>Kontakt</a>
+  <a href="/admin.html" class="login"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Anmelden</a>
+</aside>
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="Warenkorb" aria-hidden="true">
   <div class="d-head"><h2 id="dTitle">Warenkorb</h2><button class="x" id="closeCart" aria-label="Schließen">✕</button></div>
@@ -538,6 +560,14 @@ $("yr").textContent = new Date().getFullYear();
 $("ftMail").textContent = CONFIG.email; $("ftMail").href = "mailto:" + CONFIG.email;
 
 /* Guides: Tabs + Dosierrechner */
+/* Menü */
+function openMenu(){ $("menu").classList.add("on"); $("mscrim").classList.add("on"); $("menu").setAttribute("aria-hidden","false"); }
+function closeMenu(){ $("menu").classList.remove("on"); $("mscrim").classList.remove("on"); $("menu").setAttribute("aria-hidden","true"); }
+function guideTab(g){ document.querySelectorAll(".gtabs button").forEach(b => b.classList.toggle("on", b.dataset.g === g)); document.querySelectorAll(".gpanel").forEach(p => p.hidden = p.id !== "g-" + g); }
+$("openMenu").onclick = openMenu; $("closeMenu").onclick = closeMenu; $("mscrim").onclick = closeMenu;
+$("menu").addEventListener("click", e => { const a = e.target.closest("a"); if (!a) return; if (a.dataset.g) guideTab(a.dataset.g); closeMenu(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+if (location.hash === "#rechner"){ guideTab("rechner"); setTimeout(() => $("guides").scrollIntoView(), 50); }
 document.querySelector(".gtabs").onclick = e => { const g = e.target.dataset.g; if (!g) return;
   document.querySelectorAll(".gtabs button").forEach(b => b.classList.toggle("on", b.dataset.g === g));
   document.querySelectorAll(".gpanel").forEach(p => p.hidden = p.id !== "g-" + g); };
