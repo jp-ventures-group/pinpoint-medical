@@ -2,6 +2,13 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
+<script>/* Alten Service Worker (frühere Lovable-Seite) entfernen, damit immer die aktuelle Version lädt */
+if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => {
+  if (!rs.length) return;
+  Promise.all(rs.map(r => r.unregister()).concat(window.caches ? [caches.keys().then(k => Promise.all(k.map(n => caches.delete(n))))] : []))
+    .then(() => { try{ if (!sessionStorage.getItem("pm_sw_clean")){ sessionStorage.setItem("pm_sw_clean","1"); location.reload(); } }catch{} });
+}).catch(() => {});
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pinpoint Medical — CE-zertifiziertes medizinisches Verbrauchsmaterial</title>
 <meta name="description" content="Spritzen, Nadeln, BAC Water und Alkoholtupfer – CE-zertifiziert, steril, schnell geliefert. Apothekenqualität ohne Apothekenpreise.">
