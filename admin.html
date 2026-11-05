@@ -222,7 +222,7 @@ function card(o){
   const items = (o.positionen || []).map(p => `<tr><td>${p.menge}× ${esc(p.name)} <span style="color:var(--muted)">${esc(p.variante || "")}</span></td><td>${eur(p.preis * p.menge)}</td></tr>`).join("");
   const adr = `${o.name}\n${o.strasse}\n${o.plz} ${o.ort}\n${LAND[o.land] || o.land}`;
   let acts = "";
-  if (o.status === "bezahlt") acts = `<div class="ship"><input id="sn-${o.id}" placeholder="Sendungsnummer (optional)"><button class="btn ok" data-a="versenden" data-id="${o.id}">Versendet ✓</button></div>
+  if (o.status === "bezahlt") acts = `<div class="ship"><input id="sn-${o.id}" placeholder="Sendungsnummer – Kunde bekommt Versandmail"><button class="btn ok" data-a="versenden" data-id="${o.id}">Versendet ✓</button></div>
     <div class="acts"><button class="btn red" data-a="storno" data-id="${o.id}">Stornieren</button></div>`;
   else if (o.status === "versendet") acts = `<div class="acts"><button class="btn ghost" data-a="zurueck" data-id="${o.id}">Zurück auf „zu versenden“</button></div>`;
   else if (o.status === "offen") acts = `<div class="acts"><button class="btn ghost" data-a="storno" data-id="${o.id}">Verwerfen</button></div>`;
@@ -231,7 +231,7 @@ function card(o){
     <table class="items">${items}<tr><td>Versand</td><td>${Number(o.versand) ? eur(o.versand) : "gratis"}</td></tr></table>
     <div class="sum"><span>Gesamt</span><span>${eur(o.gesamt)}</span></div>
     <div class="meta">✉️ <a href="mailto:${esc(o.email)}?subject=${encodeURIComponent("Deine Bestellung #" + o.code + " bei Pinpoint Medical")}">${esc(o.email)}</a>${o.tel ? ` · 📞 <a href="tel:${esc(o.tel)}">${esc(o.tel)}</a>` : ""}
-      ${o.notiz ? `<br>📝 ${esc(o.notiz)}` : ""}${o.sendungsnummer ? `<br>📦 Sendung: <b>${esc(o.sendungsnummer)}</b>` : ""}${o.versendet_am ? ` · versendet ${dt(o.versendet_am)}` : ""}${o.grund ? `<br>Grund: ${esc(o.grund)}` : ""}</div>
+      ${o.notiz ? `<br>📝 ${esc(o.notiz)}` : ""}${o.sendungsnummer ? `<br>📦 Sendung: <b>${esc(o.sendungsnummer)}</b>` : ""}${o.versendet_am ? ` · versendet ${dt(o.versendet_am)}` : ""}${o.mail_bestaetigung_am || o.mail_versand_am ? `<br>✉️ Mail: ${[o.mail_bestaetigung_am ? "Bestätigung" : "", o.mail_versand_am ? "Versand" : ""].filter(Boolean).join(" + ")} gesendet` : ""}${o.grund ? `<br>Grund: ${esc(o.grund)}` : ""}</div>
     ${acts}</div>`;
 }
 $("q").addEventListener("input", renderOrders);
