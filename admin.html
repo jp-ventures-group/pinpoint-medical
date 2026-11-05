@@ -26,6 +26,7 @@ button{font:inherit;cursor:pointer}
 header{position:sticky;top:0;z-index:10;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 0}
 .top{display:flex;align-items:center;justify-content:space-between;gap:10px;height:44px;max-width:900px;margin:0 auto}
 .top b{font-weight:800;letter-spacing:-.01em}.top b span{opacity:.6;font-weight:500}
+.upd{background:#5FB3B3;color:var(--navy);text-align:center;font-size:14px;font-weight:600;padding:8px 12px;cursor:pointer}
 .top button{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-size:13px}
 .tabs{display:flex;gap:4px;max-width:900px;margin:6px auto 0;overflow-x:auto}
 .tabs button{background:none;border:0;color:rgba(255,255,255,.7);padding:10px 12px;font-weight:600;font-size:14px;border-bottom:3px solid transparent;white-space:nowrap}
@@ -77,7 +78,8 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
 </head>
 <body>
 <header>
-  <div class="top"><b>Pinpoint <span>Admin</span></b><div><button id="pwBtn" class="hidden">Passwort</button> <button id="logout" class="hidden">Abmelden</button></div></div>
+  <div class="upd hidden" id="updBar">Neue Version verfügbar – hier tippen zum Aktualisieren</div>
+  <div class="top"><b>Pinpoint <span>Admin</span></b><div><button id="reload" title="Neueste Version laden">↻ Neu laden</button> <button id="pwBtn" class="hidden">Passwort</button> <button id="logout" class="hidden">Abmelden</button></div></div>
   <nav class="tabs hidden" id="tabs">
     <button data-t="todo" class="on">Zu versenden<span class="n" id="nTodo" hidden></span></button>
     <button data-t="versendet">Versendet</button>
@@ -131,7 +133,7 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
 <div class="toast" id="toast"></div>
 
 <script>
-window.APP_VERSION = "5"; // bei jedem Update erhöhen
+window.APP_VERSION = "6"; // bei jedem Update erhöhen
 const SUPA_URL = "https://smjspmfvdjvyohpoqxgl.supabase.co";
 const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtanNwbWZ2ZGp2eW9ocG9xeGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NDI0NjcsImV4cCI6MjEwOTAxODQ2N30.qigoZ7S6dn5lZDXcOxsTQDolnVPsaod2UH-9Ns1M5ak";
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
@@ -379,6 +381,17 @@ $("eSave").onclick = async () => {
   const { error } = await sb.from("pm_einstellungen").update({ versand: Number($("eVers").value), gratis_ab: Number($("eGratis").value), shop_offen: $("eOffen").checked }).eq("id", 1);
   toast(error ? "Fehler: " + error.message : "Gespeichert");
 };
+
+/* Aktualisieren per Knopfdruck: lädt die Seite am Zwischenspeicher vorbei neu */
+function hardReload(){ location.replace(location.pathname + "?v=" + Date.now()); }
+$("reload").onclick = hardReload; $("updBar").onclick = hardReload;
+async function updateCheck(){
+  try{ const t = await (await fetch(location.pathname + "?check=" + Date.now(), { cache:"no-store" })).text();
+    const neu = (t.match(/APP_VERSION = "([^"]+)"/) || [])[1];
+    $("updBar").classList.toggle("hidden", !(neu && neu !== window.APP_VERSION)); }catch{}
+}
+setInterval(updateCheck, 5 * 60e3);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) updateCheck(); });
 
 start();
 setInterval(() => { if (!document.hidden && !$("ordersView").classList.contains("hidden")) ladeBestellungen(); }, 30000);
