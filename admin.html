@@ -11,6 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B3358'/%3E%3Crect x='13' y='5' width='6' height='4' rx='1' fill='%23fff'/%3E%3Cpath d='M12 11h8v13a4 4 0 0 1-8 0z' fill='%23fff'/%3E%3Cpath d='M16 15c-1.6 2.2-2.4 3.4-2.4 4.4a2.4 2.4 0 0 0 4.8 0c0-1-.8-2.2-2.4-4.4z' fill='%233E8E8E'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--navy:#1B3358;--blue:#36679A;--teal:#3E8E8E;--ink:#1B2B40;--muted:#5B6878;--line:#E1E5EC;--bg:#F3F5F8;--ok:#1C7C4A;--okbg:#E3F4EA;--warn:#B26A00;--warnbg:#FFF3DC;--err:#B3261E;--errbg:#FCE8E6}
 *{box-sizing:border-box}
@@ -60,6 +61,11 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
 .prod input{padding:8px}
 .sw{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin:0}.sw input{width:20px;height:20px}
 @media(max-width:600px){.prod{grid-template-columns:1fr 1fr}.prod>div:first-child{grid-column:1/-1}}
+.bulk{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px;display:grid;gap:10px}
+.bulk .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bulk .btn{flex:1;min-width:140px;padding:10px 12px;font-size:14px}
+.bulk .sel{font-size:14px;color:var(--muted)}.bulk select{width:auto;padding:8px;font-size:14px}
+.pick{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--navy);font-size:14px;margin:0 0 10px}.pick input{width:22px;height:22px}
+.pack{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:14px}.pack b{color:var(--navy)}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;font-size:14px;transition:.25s;z-index:60}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
@@ -88,6 +94,12 @@ input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 
   <div id="ordersView" class="hidden">
     <div class="stats" id="stats"></div>
     <div class="filter"><input id="q" placeholder="Suchen: Name, Code, Ort, E-Mail …"></div>
+    <div id="bulk" class="bulk hidden">
+      <div class="row"><label class="pick" style="margin:0"><input type="checkbox" id="selAll"> Alle auswählen</label><span class="sel" id="selInfo"></span></div>
+      <div class="row"><button class="btn ghost" id="bPack">Packliste</button><button class="btn" id="bPdf">Versandscheine PDF</button></div>
+      <div class="row"><span class="sel">Format:</span><select id="fmt"><option value="a4">A4 – 4 Scheine pro Seite</option><option value="a6">A6 – Etikettendrucker</option></select><button class="btn ok" id="bShip">Ausgewählte versendet ✓</button></div>
+      <div id="packOut"></div>
+    </div>
     <div id="list"></div>
   </div>
 
@@ -179,8 +191,10 @@ function renderOrders(){
   let l = TAB === "todo" ? todo : TAB === "versendet" ? ORDERS.filter(o => o.status === "versendet") : ORDERS;
   if (TAB === "todo") l = [...l].reverse(); // älteste zuerst
   if (q) l = l.filter(o => [o.code, o.name, o.email, o.ort, o.plz, o.strasse, o.sendungsnummer].join(" ").toLowerCase().includes(q));
+  bulkInfo();
   $("list").innerHTML = l.length ? l.map(card).join("") : `<div class="empty">${TAB === "todo" ? "Nichts zu versenden. 🎉" : "Keine Bestellungen."}</div>`;
 }
+const SEL = new Set();
 function card(o){
   const st = o.status === "offen" ? "nicht bezahlt" : o.status;
   const items = (o.positionen || []).map(p => `<tr><td>${p.menge}× ${esc(p.name)} <span style="color:var(--muted)">${esc(p.variante || "")}</span></td><td>${eur(p.preis * p.menge)}</td></tr>`).join("");
@@ -190,7 +204,7 @@ function card(o){
     <div class="acts"><button class="btn red" data-a="storno" data-id="${o.id}">Stornieren</button></div>`;
   else if (o.status === "versendet") acts = `<div class="acts"><button class="btn ghost" data-a="zurueck" data-id="${o.id}">Zurück auf „zu versenden“</button></div>`;
   else if (o.status === "offen") acts = `<div class="acts"><button class="btn ghost" data-a="storno" data-id="${o.id}">Verwerfen</button></div>`;
-  return `<div class="card"><div class="o-head"><div><h3>#${esc(o.code)} · ${esc(o.name)}</h3><small>${dt(o.created_at)}${o.bezahlt_am ? " · bezahlt " + dt(o.bezahlt_am) : ""}</small></div><span class="pill ${o.status}">${st}</span></div>
+  return `<div class="card">${o.status === "bezahlt" && TAB === "todo" ? `<label class="pick"><input type="checkbox" data-sel="${o.id}" ${SEL.has(o.id) ? "checked" : ""}> Auswählen</label>` : ""}<div class="o-head"><div><h3>#${esc(o.code)} · ${esc(o.name)}</h3><small>${dt(o.created_at)}${o.bezahlt_am ? " · bezahlt " + dt(o.bezahlt_am) : ""}</small></div><span class="pill ${o.status}">${st}</span></div>
     <div class="addr">${esc(adr)}<button data-a="copy" data-t="${esc(adr)}">Kopieren</button></div>
     <table class="items">${items}<tr><td>Versand</td><td>${Number(o.versand) ? eur(o.versand) : "gratis"}</td></tr></table>
     <div class="sum"><span>Gesamt</span><span>${eur(o.gesamt)}</span></div>
@@ -199,6 +213,67 @@ function card(o){
     ${acts}</div>`;
 }
 $("q").addEventListener("input", renderOrders);
+/* Sammelfunktionen: Packliste, Versandscheine, Massen-Versand */
+const ABSENDER = ["Pinpoint Medical", "Jubal Pfister", "Millöckergasse 39", "8010 Graz", "Österreich"];
+function auswahl(){ return ORDERS.filter(o => SEL.has(o.id) && o.status === "bezahlt"); }
+function bulkInfo(){
+  const todo = ORDERS.filter(o => o.status === "bezahlt");
+  for (const id of [...SEL]) if (!todo.find(o => o.id === id)) SEL.delete(id);
+  $("bulk").classList.toggle("hidden", TAB !== "todo" || !todo.length);
+  $("selInfo").textContent = SEL.size ? `${SEL.size} von ${todo.length} ausgewählt` : "Nichts ausgewählt";
+  $("selAll").checked = todo.length > 0 && SEL.size === todo.length;
+  ["bPack","bPdf","bShip"].forEach(i => $(i).disabled = !SEL.size);
+}
+$("list").addEventListener("change", e => { const id = e.target.dataset.sel; if (!id) return; e.target.checked ? SEL.add(id) : SEL.delete(id); bulkInfo(); });
+$("selAll").onchange = e => { SEL.clear(); if (e.target.checked) ORDERS.filter(o => o.status === "bezahlt").forEach(o => SEL.add(o.id)); renderOrders(); };
+$("bPack").onclick = () => {
+  const sum = {};
+  auswahl().forEach(o => (o.positionen || []).forEach(p => { const k = p.name + (p.variante ? " – " + p.variante : ""); sum[k] = (sum[k] || 0) + p.menge; }));
+  $("packOut").innerHTML = `<div class="pack"><b>Packliste für ${SEL.size} Bestellungen</b><br>${Object.entries(sum).sort().map(([k, n]) => `<b>${n}×</b> ${esc(k)}`).join("<br>")}</div>`;
+};
+$("bPdf").onclick = () => {
+  const l = auswahl(); if (!l.length) return;
+  if (!window.jspdf) return toast("PDF-Modul nicht geladen – Seite neu laden");
+  const a6 = $("fmt").value === "a6";
+  const doc = new jspdf.jsPDF({ unit:"mm", format: a6 ? [105,148] : "a4" });
+  const W = 105, Hh = 148;
+  l.forEach((o, i) => {
+    let x = 0, y = 0;
+    if (a6){ if (i) doc.addPage([105,148]); }
+    else { const k = i % 4; if (i && !k) doc.addPage(); x = (k % 2) * W; y = Math.floor(k / 2) * Hh;
+      doc.setDrawColor(190); doc.setLineDashPattern([1.5,1.5],0); doc.line(105,0,105,297); doc.line(0,148.5,210,148.5); doc.setLineDashPattern([],0); }
+    const m = 8, L = x + m, R = x + W - m;
+    doc.setTextColor(27,51,88);
+    doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.text("PINPOINT MEDICAL", L, y + 13);
+    doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(90);
+    doc.text("Abs.: " + ABSENDER.join(", "), L, y + 18, { maxWidth: W - 2*m });
+    doc.setFont("helvetica","bold"); doc.setFontSize(12); doc.setTextColor(27,51,88); doc.text("#" + o.code, R, y + 13, { align:"right" });
+    doc.setDrawColor(27,51,88); doc.setLineWidth(0.4); doc.line(L, y + 23, R, y + 23);
+    doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(90); doc.text("EMPFÄNGER", L, y + 31);
+    doc.setTextColor(0); doc.setFont("helvetica","bold"); doc.setFontSize(15);
+    let yy = y + 39;
+    const zeilen = [o.name, o.strasse, `${o.plz} ${o.ort}`, (LAND[o.land] || o.land).toUpperCase()];
+    zeilen.forEach((t, j) => { if (j === 1) doc.setFont("helvetica","normal"); const w = doc.splitTextToSize(String(t), W - 2*m); doc.text(w, L, yy); yy += 7 * w.length; });
+    yy += 3; doc.setLineWidth(0.2); doc.setDrawColor(200); doc.line(L, yy, R, yy); yy += 6;
+    doc.setFontSize(8); doc.setTextColor(90); doc.text("INHALT", L, yy); yy += 5;
+    doc.setFontSize(9.5); doc.setTextColor(0);
+    (o.positionen || []).forEach(p => { if (yy > y + Hh - 16) return; doc.text(`${p.menge}× ${p.name}${p.variante ? " (" + p.variante + ")" : ""}`, L, yy, { maxWidth: W - 2*m }); yy += 5; });
+    doc.setFontSize(7.5); doc.setTextColor(120);
+    doc.text(`Bestellt ${new Date(o.created_at).toLocaleDateString("de-AT")}${o.tel ? " · Tel. " + o.tel : ""}`, L, y + Hh - 9);
+  });
+  const name = `Versandscheine_${new Date().toISOString().slice(0,10)}.pdf`;
+  try{ window.open(doc.output("bloburl"), "_blank") || doc.save(name); }catch{ doc.save(name); }
+  toast(`${l.length} Versandscheine erstellt`);
+};
+$("bShip").onclick = async () => {
+  const l = auswahl(); if (!l.length) return;
+  if (!confirm(`${l.length} Bestellungen als versendet markieren?`)) return;
+  $("bShip").disabled = true;
+  const { error } = await sb.from("pm_bestellungen").update({ status:"versendet", versendet_am:new Date().toISOString(), bearbeitet_von: ME }).in("id", l.map(o => o.id)).eq("status", "bezahlt");
+  if (error) { $("bShip").disabled = false; return toast("Fehler: " + error.message); }
+  SEL.clear(); $("packOut").innerHTML = ""; toast(`${l.length} als versendet markiert`); ladeBestellungen();
+};
+
 $("list").addEventListener("click", async e => {
   const b = e.target.closest("[data-a]"); if (!b) return;
   const a = b.dataset.a, id = b.dataset.id;
