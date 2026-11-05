@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pinpoint Admin</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#1B3358">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PM Admin">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B3358'/%3E%3Crect x='13' y='5' width='6' height='4' rx='1' fill='%23fff'/%3E%3Cpath d='M12 11h8v13a4 4 0 0 1-8 0z' fill='%23fff'/%3E%3Cpath d='M16 15c-1.6 2.2-2.4 3.4-2.4 4.4a2.4 2.4 0 0 0 4.8 0c0-1-.8-2.2-2.4-4.4z' fill='%233E8E8E'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<style>
+:root{--navy:#1B3358;--blue:#36679A;--teal:#3E8E8E;--ink:#1B2B40;--muted:#5B6878;--line:#E1E5EC;--bg:#F3F5F8;--ok:#1C7C4A;--okbg:#E3F4EA;--warn:#B26A00;--warnbg:#FFF3DC;--err:#B3261E;--errbg:#FCE8E6}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom)}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+header{position:sticky;top:0;z-index:10;background:var(--navy);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;height:44px;max-width:900px;margin:0 auto}
+.top b{font-weight:800;letter-spacing:-.01em}.top b span{opacity:.6;font-weight:500}
+.top button{background:rgba(255,255,255,.12);color:#fff;border:0;border-radius:8px;padding:6px 10px;font-size:13px}
+.tabs{display:flex;gap:4px;max-width:900px;margin:6px auto 0;overflow-x:auto}
+.tabs button{background:none;border:0;color:rgba(255,255,255,.7);padding:10px 12px;font-weight:600;font-size:14px;border-bottom:3px solid transparent;white-space:nowrap}
+.tabs button.on{color:#fff;border-color:#5FB3B3}
+.tabs .n{background:#5FB3B3;color:var(--navy);border-radius:999px;font-size:11px;padding:1px 7px;margin-left:4px}
+main{max-width:900px;margin:0 auto;padding:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.login{max-width:380px;margin:60px auto}
+.login h1{font-size:22px;color:var(--navy);margin:0 0 4px}
+label{display:grid;gap:4px;font-size:13px;font-weight:500;color:var(--muted);margin-top:10px}
+input,select,textarea{font:inherit;font-size:16px;border:1px solid #CBD3DE;border-radius:8px;padding:10px 12px;width:100%;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px #E1EAF4}
+.btn{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:11px 16px;font-weight:600}
+.btn.full{width:100%;margin-top:14px}.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.ok{background:var(--ok)}.btn.red{background:#fff;color:var(--err);border:1px solid #F1C9C5}
+.btn:disabled{opacity:.5}
+.msg{color:var(--err);font-size:14px;font-weight:600;min-height:1.2em;margin-top:8px}
+.filter{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter input{flex:1;min-width:180px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stats div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stats b{display:block;font-size:20px;color:var(--navy)}.stats span{font-size:12px;color:var(--muted)}
+.o-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.o-head h3{margin:0;font-size:17px;color:var(--navy)}.o-head small{color:var(--muted);display:block}
+.pill{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.bezahlt{background:var(--warnbg);color:var(--warn)}.pill.versendet{background:var(--okbg);color:var(--ok)}
+.pill.offen{background:#EEF1F5;color:var(--muted)}.pill.storniert{background:var(--errbg);color:var(--err)}
+.addr{background:var(--bg);border-radius:10px;padding:10px 12px;margin:12px 0;font-size:15px;position:relative;white-space:pre-line}
+.addr button{position:absolute;top:8px;right:8px;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:12px;padding:4px 8px;color:var(--blue)}
+.items{width:100%;border-collapse:collapse;font-size:14px}.items td{padding:5px 0;border-bottom:1px dashed var(--line)}.items td:last-child{text-align:right}
+.sum{display:flex;justify-content:space-between;font-weight:800;color:var(--navy);margin-top:8px;font-size:16px}
+.meta{font-size:13px;color:var(--muted);margin-top:8px}
+.acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.acts .btn{flex:1}
+.ship{display:flex;gap:8px;margin-top:12px}.ship input{flex:1}
+.empty{text-align:center;color:var(--muted);padding:40px 0}
+.prod{display:grid;grid-template-columns:1fr 110px 90px auto;gap:10px;align-items:center}
+.prod b{color:var(--navy)}.prod small{display:block;color:var(--muted)}
+.prod input{padding:8px}
+.sw{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin:0}.sw input{width:20px;height:20px}
+@media(max-width:600px){.prod{grid-template-columns:1fr 1fr}.prod>div:first-child{grid-column:1/-1}}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;font-size:14px;transition:.25s;z-index:60}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><b>Pinpoint <span>Admin</span></b><div><button id="pwBtn" class="hidden">Passwort</button> <button id="logout" class="hidden">Abmelden</button></div></div>
+  <nav class="tabs hidden" id="tabs">
+    <button data-t="todo" class="on">Zu versenden<span class="n" id="nTodo" hidden></span></button>
+    <button data-t="versendet">Versendet</button>
+    <button data-t="alle">Alle</button>
+    <button data-t="produkte">Produkte</button>
+    <button data-t="einst">Einstellungen</button>
+  </nav>
+</header>
+
+<main>
+  <div id="loginView" class="login card">
+    <h1>Anmelden</h1><p style="color:var(--muted);margin:0">Gleiches Login wie bei AlkExpress.</p>
+    <form id="loginForm"><label>E-Mail<input name="email" type="email" autocomplete="username" required></label>
+      <label>Passwort<input name="pw" type="password" autocomplete="current-password" required></label>
+      <button class="btn full">Anmelden</button><p class="msg" id="loginMsg"></p></form>
+  </div>
+  <div id="denied" class="card hidden"><b>Kein Zugriff.</b><p style="color:var(--muted)">Dieses Konto ist nicht als Pinpoint-Admin freigeschaltet.</p></div>
+
+  <div id="ordersView" class="hidden">
+    <div class="stats" id="stats"></div>
+    <div class="filter"><input id="q" placeholder="Suchen: Name, Code, Ort, E-Mail …"></div>
+    <div id="list"></div>
+  </div>
+
+  <div id="prodView" class="hidden">
+    <div id="prodList"></div>
+    <div class="card"><b style="color:var(--navy)">Neues Produkt</b>
+      <label>Name<input id="nName" placeholder="z. B. Insulinspritzen U-100"></label>
+      <label>Variante<input id="nVar" placeholder="z. B. 0,5 ml · 100 Stück"></label>
+      <label>Kategorie<input id="nKat" list="kats" placeholder="Lösungen, Spritzen, Pens, Desinfektion"><datalist id="kats"></datalist></label>
+      <label>Beschreibung<input id="nDesc"></label>
+      <label>Preis (€)<input id="nPreis" type="number" step="0.01" inputmode="decimal"></label>
+      <button class="btn full" id="nAdd">Hinzufügen</button></div>
+  </div>
+
+  <div id="einstView" class="hidden card">
+    <label>Versandkosten Österreich (€)<input id="eVers" type="number" step="0.01" inputmode="decimal"></label>
+    <label>Gratisversand ab (€)<input id="eGratis" type="number" step="0.01" inputmode="decimal"></label>
+    <label class="sw" style="margin-top:14px"><input type="checkbox" id="eOffen"> Shop nimmt Bestellungen an</label>
+    <button class="btn full" id="eSave">Speichern</button>
+    <p class="meta">Nach Deutschland kommen automatisch 3 € dazu.</p>
+  </div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPA_URL = "https://smjspmfvdjvyohpoqxgl.supabase.co";
+const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtanNwbWZ2ZGp2eW9ocG9xeGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NDI0NjcsImV4cCI6MjEwOTAxODQ2N30.qigoZ7S6dn5lZDXcOxsTQDolnVPsaod2UH-9Ns1M5ak";
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+const $ = id => document.getElementById(id);
+const eur = n => Number(n).toLocaleString("de-AT", { style:"currency", currency:"EUR" });
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const dt = d => d ? new Date(d).toLocaleString("de-AT", { day:"2-digit", month:"2-digit", hour:"2-digit", minute:"2-digit" }) : "";
+const toast = t => { const el = $("toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 2000); };
+const LAND = { AT:"Österreich", DE:"Deutschland" };
+
+let ORDERS = [], PRODS = [], TAB = "todo", ME = "";
+
+function show(view){
+  ["loginView","denied","ordersView","prodView","einstView"].forEach(v => $(v).classList.toggle("hidden", v !== view));
+  const app = !["loginView","denied"].includes(view);
+  $("tabs").classList.toggle("hidden", !app); $("pwBtn").classList.toggle("hidden", !app); $("logout").classList.toggle("hidden", view === "loginView");
+}
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault(); $("loginMsg").textContent = "";
+  const { error } = await sb.auth.signInWithPassword({ email: e.target.email.value.trim().toLowerCase(), password: e.target.pw.value });
+  if (error) $("loginMsg").textContent = "E-Mail oder Passwort falsch."; else start();
+});
+$("logout").onclick = async () => { await sb.auth.signOut(); show("loginView"); };
+$("pwBtn").onclick = async () => {
+  const pw = prompt("Neues Passwort (mindestens 8 Zeichen):"); if (pw === null) return;
+  if (pw.length < 8) return alert("Mindestens 8 Zeichen.");
+  const { error } = await sb.auth.updateUser({ password: pw }); alert(error ? "Fehler: " + error.message : "Passwort geändert (gilt auch für AlkExpress).");
+};
+
+async function start(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if (!session) return show("loginView");
+  ME = session.user.email;
+  const { data: ok } = await sb.rpc("pm_is_admin");
+  if (ok !== true) return show("denied");
+  setTab(TAB); await Promise.all([ladeBestellungen(), ladeProdukte(), ladeEinst()]);
+}
+
+/* Tabs */
+$("tabs").onclick = e => { const b = e.target.closest("button"); if (b) setTab(b.dataset.t); };
+function setTab(t){
+  TAB = t; document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === t));
+  show(t === "produkte" ? "prodView" : t === "einst" ? "einstView" : "ordersView"); renderOrders();
+}
+
+/* Bestellungen */
+async function ladeBestellungen(){
+  const { data, error } = await sb.from("pm_bestellungen").select("*").order("created_at", { ascending:false }).limit(500);
+  if (error) return toast("Laden fehlgeschlagen");
+  const vorher = ORDERS.filter(o => o.status === "bezahlt").length;
+  ORDERS = data || []; renderOrders();
+  const jetzt = ORDERS.filter(o => o.status === "bezahlt").length;
+  if (jetzt > vorher && vorher !== 0) { toast("Neue bezahlte Bestellung!"); try{ navigator.vibrate && navigator.vibrate(200); }catch{} }
+}
+function renderOrders(){
+  const todo = ORDERS.filter(o => o.status === "bezahlt");
+  $("nTodo").textContent = todo.length; $("nTodo").hidden = !todo.length;
+  document.title = (todo.length ? `(${todo.length}) ` : "") + "Pinpoint Admin";
+  const monat = new Date(); monat.setDate(1); monat.setHours(0,0,0,0);
+  const bez = ORDERS.filter(o => o.bezahlt && o.status !== "storniert");
+  const umsatzM = bez.filter(o => new Date(o.bezahlt_am || o.created_at) >= monat).reduce((s, o) => s + Number(o.gesamt), 0);
+  $("stats").innerHTML = `<div><b>${todo.length}</b><span>zu versenden</span></div><div><b>${bez.filter(o => new Date(o.bezahlt_am || o.created_at) >= monat).length}</b><span>Bestellungen diesen Monat</span></div><div><b>${eur(umsatzM)}</b><span>Umsatz diesen Monat</span></div>`;
+  const q = $("q").value.trim().toLowerCase();
+  let l = TAB === "todo" ? todo : TAB === "versendet" ? ORDERS.filter(o => o.status === "versendet") : ORDERS;
+  if (TAB === "todo") l = [...l].reverse(); // älteste zuerst
+  if (q) l = l.filter(o => [o.code, o.name, o.email, o.ort, o.plz, o.strasse, o.sendungsnummer].join(" ").toLowerCase().includes(q));
+  $("list").innerHTML = l.length ? l.map(card).join("") : `<div class="empty">${TAB === "todo" ? "Nichts zu versenden. 🎉" : "Keine Bestellungen."}</div>`;
+}
+function card(o){
+  const st = o.status === "offen" ? "nicht bezahlt" : o.status;
+  const items = (o.positionen || []).map(p => `<tr><td>${p.menge}× ${esc(p.name)} <span style="color:var(--muted)">${esc(p.variante || "")}</span></td><td>${eur(p.preis * p.menge)}</td></tr>`).join("");
+  const adr = `${o.name}\n${o.strasse}\n${o.plz} ${o.ort}\n${LAND[o.land] || o.land}`;
+  let acts = "";
+  if (o.status === "bezahlt") acts = `<div class="ship"><input id="sn-${o.id}" placeholder="Sendungsnummer (optional)"><button class="btn ok" data-a="versenden" data-id="${o.id}">Versendet ✓</button></div>
+    <div class="acts"><button class="btn red" data-a="storno" data-id="${o.id}">Stornieren</button></div>`;
+  else if (o.status === "versendet") acts = `<div class="acts"><button class="btn ghost" data-a="zurueck" data-id="${o.id}">Zurück auf „zu versenden“</button></div>`;
+  else if (o.status === "offen") acts = `<div class="acts"><button class="btn ghost" data-a="storno" data-id="${o.id}">Verwerfen</button></div>`;
+  return `<div class="card"><div class="o-head"><div><h3>#${esc(o.code)} · ${esc(o.name)}</h3><small>${dt(o.created_at)}${o.bezahlt_am ? " · bezahlt " + dt(o.bezahlt_am) : ""}</small></div><span class="pill ${o.status}">${st}</span></div>
+    <div class="addr">${esc(adr)}<button data-a="copy" data-t="${esc(adr)}">Kopieren</button></div>
+    <table class="items">${items}<tr><td>Versand</td><td>${Number(o.versand) ? eur(o.versand) : "gratis"}</td></tr></table>
+    <div class="sum"><span>Gesamt</span><span>${eur(o.gesamt)}</span></div>
+    <div class="meta">✉️ <a href="mailto:${esc(o.email)}?subject=${encodeURIComponent("Deine Bestellung #" + o.code + " bei Pinpoint Medical")}">${esc(o.email)}</a>${o.tel ? ` · 📞 <a href="tel:${esc(o.tel)}">${esc(o.tel)}</a>` : ""}
+      ${o.notiz ? `<br>📝 ${esc(o.notiz)}` : ""}${o.sendungsnummer ? `<br>📦 Sendung: <b>${esc(o.sendungsnummer)}</b>` : ""}${o.versendet_am ? ` · versendet ${dt(o.versendet_am)}` : ""}${o.grund ? `<br>Grund: ${esc(o.grund)}` : ""}</div>
+    ${acts}</div>`;
+}
+$("q").addEventListener("input", renderOrders);
+$("list").addEventListener("click", async e => {
+  const b = e.target.closest("[data-a]"); if (!b) return;
+  const a = b.dataset.a, id = b.dataset.id;
+  if (a === "copy"){ try{ await navigator.clipboard.writeText(b.dataset.t); toast("Adresse kopiert"); }catch{ toast("Kopieren nicht möglich"); } return; }
+  let patch;
+  if (a === "versenden") patch = { status:"versendet", versendet_am:new Date().toISOString(), sendungsnummer: ($("sn-" + id).value.trim() || null), bearbeitet_von: ME };
+  if (a === "zurueck") patch = { status:"bezahlt", versendet_am:null };
+  if (a === "storno"){
+    const o = ORDERS.find(x => x.id === id);
+    if (!confirm(o.bezahlt ? "Bestellung stornieren? Die Rückzahlung musst du in der SumUp-App selbst auslösen." : "Unbezahlte Bestellung verwerfen?")) return;
+    patch = { status:"storniert", bearbeitet_von: ME };
+  }
+  b.disabled = true;
+  const { error } = await sb.from("pm_bestellungen").update(patch).eq("id", id);
+  if (error){ b.disabled = false; return toast("Fehler: " + error.message); }
+  toast(a === "versenden" ? "Als versendet markiert" : "Gespeichert"); ladeBestellungen();
+});
+
+/* Produkte */
+async function ladeProdukte(){
+  const { data } = await sb.from("pm_produkte").select("*").order("sort");
+  PRODS = data || [];
+  $("kats").innerHTML = [...new Set(PRODS.map(p => p.kategorie))].map(k => `<option value="${esc(k)}">`).join("");
+  $("prodList").innerHTML = PRODS.map(p => `<div class="card prod" style="${p.aktiv ? "" : "opacity:.55"}">
+    <div><b>${esc(p.name)}</b><small>${esc(p.variante || "")} · ${esc(p.kategorie)}</small></div>
+    <label style="margin:0">Preis €<input type="number" step="0.01" inputmode="decimal" value="${Number(p.preis).toFixed(2)}" data-f="preis" data-id="${p.id}"></label>
+    <label style="margin:0">Lager<input type="number" step="1" inputmode="numeric" value="${p.bestand ?? ""}" placeholder="∞" data-f="bestand" data-id="${p.id}"></label>
+    <label class="sw"><input type="checkbox" ${p.aktiv ? "checked" : ""} data-f="aktiv" data-id="${p.id}"> sichtbar</label></div>`).join("");
+}
+$("prodList").addEventListener("change", async e => {
+  const el = e.target, f = el.dataset.f, id = el.dataset.id; if (!f) return;
+  let v = f === "aktiv" ? el.checked : el.value.trim() === "" ? null : Number(el.value);
+  if (f === "preis" && !(v >= 0)) return toast("Ungültiger Preis");
+  if (f === "bestand" && v !== null && !(v >= 0)) return toast("Ungültiger Bestand");
+  const { error } = await sb.from("pm_produkte").update({ [f]: v }).eq("id", id);
+  toast(error ? "Fehler: " + error.message : "Gespeichert – sofort live"); ladeProdukte();
+});
+$("nAdd").onclick = async () => {
+  const name = $("nName").value.trim(), preis = Number($("nPreis").value), kat = $("nKat").value.trim() || "Sonstiges";
+  if (!name || !(preis >= 0) || $("nPreis").value === "") return toast("Name und Preis angeben");
+  const id = (name + "-" + $("nVar").value).toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) + "-" + Date.now().toString(36).slice(-4);
+  const sort = Math.max(0, ...PRODS.map(p => p.sort)) + 1;
+  const { error } = await sb.from("pm_produkte").insert({ id, name, variante: $("nVar").value.trim() || null, beschreibung: $("nDesc").value.trim() || null, kategorie: kat, preis, sort });
+  if (error) return toast("Fehler: " + error.message);
+  ["nName","nVar","nDesc","nPreis"].forEach(i => $(i).value = ""); toast("Produkt angelegt – sofort live"); ladeProdukte();
+};
+
+/* Einstellungen */
+async function ladeEinst(){
+  const { data } = await sb.from("pm_einstellungen").select("*").eq("id", 1).single();
+  if (data){ $("eVers").value = data.versand; $("eGratis").value = data.gratis_ab; $("eOffen").checked = data.shop_offen; }
+}
+$("eSave").onclick = async () => {
+  const { error } = await sb.from("pm_einstellungen").update({ versand: Number($("eVers").value), gratis_ab: Number($("eGratis").value), shop_offen: $("eOffen").checked }).eq("id", 1);
+  toast(error ? "Fehler: " + error.message : "Gespeichert");
+};
+
+start();
+setInterval(() => { if (!document.hidden && !$("ordersView").classList.contains("hidden")) ladeBestellungen(); }, 30000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) ladeBestellungen(); });
+</script>
+</body>
+</html>
