@@ -3,181 +3,285 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pinpoint Medical – Medizinbedarf online</title>
-<meta name="description" content="Bakteriostatisches Wasser, Insulinspritzen und Alkoholtupfer – steril verpackt, sicher online bezahlt, schneller Versand in Österreich.">
-<meta name="theme-color" content="#0B5C66">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B5C66'/%3E%3Cpath d='M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z' fill='%23fff'/%3E%3C/svg%3E">
+<title>Pinpoint Medical — CE-zertifiziertes medizinisches Verbrauchsmaterial</title>
+<meta name="description" content="Spritzen, Nadeln, BAC Water und Alkoholtupfer – CE-zertifiziert, steril, schnell geliefert. Apothekenqualität ohne Apothekenpreise.">
+<meta name="theme-color" content="#1B3358">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231B3358'/%3E%3Crect x='13' y='5' width='6' height='4' rx='1' fill='%23fff'/%3E%3Cpath d='M12 11h8v13a4 4 0 0 1-8 0z' fill='%23fff'/%3E%3Cpath d='M16 15c-1.6 2.2-2.4 3.4-2.4 4.4a2.4 2.4 0 0 0 4.8 0c0-1-.8-2.2-2.4-4.4z' fill='%233E8E8E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@500;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0F2430;--muted:#5A6E78;--line:#DDE7EA;--bg:#F5F9FA;--card:#fff;--brand:#0B5C66;--brand2:#12808C;--soft:#E3F1F2;--ok:#1C7C4A;--err:#B3261E;--r:16px}
+:root{--navy:#1B3358;--navy2:#142846;--blue:#36679A;--teal:#3E8E8E;--ink:#1B2B40;--muted:#5B6878;--line:#E1E5EC;--bg:#F3F5F8;--card:#fff;--ok:#1C7C4A;--err:#B3261E;--r:14px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;font-family:Manrope,system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-a{color:var(--brand)}button{font:inherit;cursor:pointer}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:#fff;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}button{font:inherit;cursor:pointer}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
 /* Kopfzeile */
-.top{background:var(--brand);color:#fff;font-size:13px;text-align:center;padding:7px 12px;font-weight:600;letter-spacing:.01em}
-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800;font-size:19px;letter-spacing:-.02em}
-.logo i{width:34px;height:34px;border-radius:10px;background:var(--brand);display:grid;place-items:center}
-.logo small{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:-3px}
-nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:15px;margin-right:22px}nav a:hover{color:var(--brand)}
-.cartbtn{display:flex;align-items:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:999px;padding:10px 16px;font-weight:700}
-.cartbtn .n{background:#fff;color:var(--brand);border-radius:999px;min-width:22px;height:22px;display:grid;place-items:center;font-size:12px;padding:0 6px}
-@media(max-width:720px){nav{display:none}}
+header{position:sticky;top:0;z-index:20;background:rgba(243,245,248,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:62px}
+.brand{font-weight:800;font-size:18px;letter-spacing:-.01em;color:var(--navy);text-decoration:none}
+nav{display:flex;gap:28px}nav a{color:#4A5568;text-decoration:none;font-size:14px;font-weight:500}nav a:hover{color:var(--navy)}
+.hr{display:flex;justify-content:flex-end}
+.cartbtn{position:relative;border:0;background:none;color:var(--navy);width:40px;height:40px;border-radius:10px;display:grid;place-items:center}
+.cartbtn:hover{background:#E6EAF0}
+.cartbtn .n{position:absolute;top:2px;right:0;background:var(--blue);color:#fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;font-weight:700;display:grid;place-items:center;padding:0 5px}
+.cartbtn .n:empty,.cartbtn .n[data-z]{display:none}
+@media(max-width:720px){nav{display:none}header .wrap{grid-template-columns:1fr auto}}
 /* Hero */
-.hero{background:linear-gradient(180deg,#fff 0%,var(--bg) 100%);padding:56px 0 40px}
-.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
-.badge{display:inline-flex;gap:8px;align-items:center;background:var(--soft);color:var(--brand);font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px}
-h1{font-size:clamp(32px,5vw,50px);line-height:1.08;letter-spacing:-.03em;margin:16px 0 14px}
-h1 span{color:var(--brand2)}
-.lead{color:var(--muted);font-size:18px;max-width:520px;margin:0 0 26px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:14px 22px;font-weight:700;text-decoration:none;transition:background .15s}
-.btn:hover{background:#094850}.btn.ghost{background:transparent;color:var(--brand);border:1.5px solid var(--line)}
+.hero{text-align:center;padding:56px 0 20px}
+.logo{width:min(420px,86%);height:auto;display:block;margin:0 auto 26px}
+.hero p.intro{max-width:560px;margin:10px auto 0;color:var(--muted);font-size:16px}
+.claim{display:flex;align-items:center;justify-content:space-between;gap:40px;padding:56px 0 60px;text-align:left}
+.claim h1{font-size:clamp(36px,6vw,56px);line-height:1.05;letter-spacing:-.035em;margin:0;color:var(--navy);font-weight:800}
+.claim h1 span{color:var(--blue);display:block}
+.btns{display:grid;gap:12px;min-width:220px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:#fff;border:1.5px solid var(--navy);border-radius:8px;padding:12px 22px;font-weight:600;font-size:15px;text-decoration:none;transition:background .15s}
+.btn:hover{background:var(--navy2)}.btn.ghost{background:#fff;color:var(--navy)}.btn.ghost:hover{background:var(--bg)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.hero-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 20px 50px -30px rgba(11,92,102,.35)}
-.hero-card ul{list-style:none;margin:0;padding:0;display:grid;gap:16px}
-.hero-card li{display:flex;gap:14px;align-items:flex-start}
-.hero-card li b{display:block}.hero-card li span{color:var(--muted);font-size:14px}
-.ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--brand)}
-@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero{padding-top:36px}}
-/* Vertrauensleiste */
-.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 0}
-.trust div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:14px;color:var(--muted)}
-.trust b{display:block;color:var(--ink);font-size:15px}
-@media(max-width:860px){.trust{grid-template-columns:repeat(2,1fr)}}
-section{padding:48px 0}
-h2{font-size:clamp(24px,3.4vw,32px);letter-spacing:-.02em;margin:0 0 6px}
-.sub{color:var(--muted);margin:0 0 26px}
+@media(max-width:760px){.claim{flex-direction:column;align-items:flex-start;gap:26px}.btns{width:100%}}
+/* Leiste */
+.strip{background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-top:26px;padding-bottom:26px}
+.strip div{display:flex;align-items:center;justify-content:center;gap:12px;font-weight:500;font-size:15px}
+.strip svg{color:var(--blue);flex:none}
+@media(max-width:720px){.strip .wrap{grid-template-columns:1fr}.strip div{justify-content:flex-start}}
+section{padding:72px 0}
+section.alt{background:var(--bg)}
+h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.025em;margin:6px 0 10px;color:var(--navy);line-height:1.15}
+.center{text-align:center}.center .sub{margin-left:auto;margin-right:auto}
+.sub{color:var(--muted);margin:0 0 32px;max-width:640px}
 /* Kategorien */
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 16px;font-weight:600;color:var(--muted)}
-.tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 16px;font-weight:500;font-size:14px;color:#4A5568}
+.tabs button.on{background:var(--navy);border-color:var(--navy);color:#fff}
 /* Produkte */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
 .p{background:var(--card);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;overflow:hidden;transition:box-shadow .2s,transform .2s}
-.p:hover{box-shadow:0 14px 34px -22px rgba(15,36,48,.4);transform:translateY(-2px)}
-.p .img{height:150px;background:linear-gradient(135deg,var(--soft),#F4FAFA);display:grid;place-items:center;color:var(--brand);position:relative}
-.p .tag{position:absolute;top:12px;left:12px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:700;color:var(--muted);padding:3px 10px;border-radius:999px}
-.p .body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
-.p h3{margin:0;font-size:17px;letter-spacing:-.01em}
-.p .var{color:var(--brand);font-weight:700;font-size:14px}
-.p .desc{color:var(--muted);font-size:14px;margin:0;flex:1}
-.p .row{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
-.p .price{font-weight:800;font-size:20px}.p .price small{display:block;font-size:11px;font-weight:600;color:var(--muted)}
-.add{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700}
-.add:disabled{background:#B8C6CB}
-.qty{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
-.qty button{border:0;background:#fff;width:34px;height:36px;font-size:18px;color:var(--brand)}
+.p:hover{box-shadow:0 16px 36px -24px rgba(27,51,88,.45);transform:translateY(-2px)}
+.p .img{height:160px;background:linear-gradient(160deg,#F7F9FB,#E9EEF4);display:grid;place-items:center;color:var(--navy);position:relative}
+.p .img svg .acc{color:var(--teal)}
+.p .tag{position:absolute;top:12px;left:12px;background:#fff;border:1px solid var(--line);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);padding:3px 9px;border-radius:6px}
+.p .ce{position:absolute;top:12px;right:12px;font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;color:var(--navy);border:1.5px solid var(--navy);border-radius:5px;padding:0 5px;opacity:.75}
+.p .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px;flex:1}
+.p h3{margin:0;font-size:17px;letter-spacing:-.01em;color:var(--navy)}
+.p .var{color:var(--blue);font-weight:600;font-size:14px}
+.p .desc{color:var(--muted);font-size:14px;margin:4px 0 0;flex:1}
+.p .row{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:8px}
+.p .price{font-weight:800;font-size:21px;color:var(--navy)}.p .price small{display:block;font-size:11px;font-weight:500;color:var(--muted)}
+.add{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-weight:600;font-size:14px}
+.add:hover{background:var(--navy2)}.add:disabled{background:#AEB8C5}
+.qty{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.qty button{border:0;background:#fff;width:34px;height:36px;font-size:18px;color:var(--navy)}
 .qty span{min-width:28px;text-align:center;font-weight:700}
-.stock{font-size:12px;font-weight:600;color:var(--ok)}.stock.low{color:#B26A00}.stock.out{color:var(--err)}
-/* Info */
-.info{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.info div{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px}
-.info h3{margin:12px 0 6px;font-size:17px}.info p{margin:0;color:var(--muted);font-size:15px}
-@media(max-width:860px){.info{grid-template-columns:1fr}}
-details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
-summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
-summary::after{content:"+";color:var(--brand);font-size:20px;line-height:1}details[open] summary::after{content:"–"}
+.stock{font-size:12px;font-weight:600;color:var(--ok);margin-top:6px}.stock.low{color:#B26A00}.stock.out{color:var(--err)}
+/* Qualität */
+.q{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.q div{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.q h3{margin:14px 0 6px;font-size:17px;color:var(--navy)}.q p{margin:0;color:var(--muted);font-size:15px}
+.ic{width:44px;height:44px;border-radius:10px;background:#E8EEF5;color:var(--blue);display:grid;place-items:center;font-weight:700}
+@media(max-width:860px){.q{grid-template-columns:1fr}}
+details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;color:var(--navy)}
+summary::after{content:"+";color:var(--blue);font-size:20px;line-height:1}details[open] summary::after{content:"–"}
 details p{color:var(--muted);margin:10px 0 0}
-.notice{background:#FFF8E6;border:1px solid #F1DFAE;color:#6B5200;border-radius:14px;padding:14px 16px;font-size:14px}
-footer{background:var(--ink);color:#B9C8CE;padding:40px 0 30px;font-size:14px;margin-top:20px}
-footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
-footer a{color:#fff;text-decoration:none;margin-right:16px}footer b{color:#fff}
-.pay{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.pay span{background:#1C3644;border-radius:6px;padding:4px 8px;font-size:12px;font-weight:700;color:#fff}
+.notice{background:#EEF3F9;border:1px solid #D5E0EE;color:#3B4C63;border-radius:12px;padding:14px 16px;font-size:14px;margin-top:18px}
+/* Guides */
+.gtabs{display:flex;justify-content:center;gap:6px;margin:0 auto 22px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:4px;width:max-content;max-width:100%}
+.gtabs button{border:0;background:none;border-radius:7px;padding:9px 18px;font-weight:600;font-size:14px;color:#4A5568}
+.gtabs button.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(20,40,70,.15)}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:20px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+.cin{display:grid;gap:14px;align-content:start}
+.unit{display:flex;border:1px solid #CBD3DE;border-radius:8px;overflow:hidden;background:#fff}
+.unit:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px #E1EAF4}
+.unit input{border:0;box-shadow:none!important;flex:1;min-width:0;font-weight:600;font-size:18px}
+.unit span,.unit select{border:0;border-left:1px solid var(--line);background:var(--bg);padding:0 14px;display:grid;place-items:center;font-weight:600;color:var(--navy);width:auto;font-size:15px;border-radius:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:-6px}.chips button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:4px 10px;font-size:13px;color:var(--blue);font-weight:600}
+.cout{background:var(--bg);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.big{display:flex;flex-direction:column;align-items:center;text-align:center}.big span{font-size:56px;font-weight:800;color:var(--navy);line-height:1;letter-spacing:-.03em}.big small{color:var(--muted);font-weight:500;margin-top:6px}
+.syr{display:flex;align-items:center;height:46px}
+.barrel{position:relative;flex:1;height:34px;border:2px solid var(--navy);border-radius:4px;background:#fff;overflow:hidden}
+.fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#5FB3B3,#3E8E8E);transition:width .35s ease}
+.ticks{position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 1px}.ticks i{width:1px;background:rgba(27,51,88,.35);height:40%}.ticks i.l{height:70%;background:rgba(27,51,88,.6)}
+.needle{width:44px;height:2px;background:var(--navy);position:relative}.needle::before{content:"";position:absolute;left:-2px;top:-7px;width:8px;height:16px;background:var(--navy);border-radius:2px}
+.kv{display:grid;gap:8px}.kv div{display:flex;justify-content:space-between;gap:10px;font-size:14px;border-bottom:1px dashed var(--line);padding-bottom:6px}.kv span{color:var(--muted)}.kv b{color:var(--navy);text-align:right}
+.warn{margin:0;font-size:13px;font-weight:600;color:#B26A00;min-height:1em}
+.fine{font-size:13px;color:var(--muted);text-align:center;margin:14px auto 0;max-width:640px}
+.steps{list-style:none;counter-reset:s;margin:0 auto;padding:0;display:grid;gap:12px;max-width:820px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;column-gap:16px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.steps li::before{content:counter(s);grid-row:span 2;width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;display:grid;place-items:center}
+.steps b{color:var(--navy)}.steps span{color:var(--muted);font-size:15px}
+#g-rekon .notice{max-width:820px;margin:16px auto 0}
+@media(max-width:760px){.calc{grid-template-columns:1fr;padding:16px}}
+/* Footer */
+footer{background:var(--navy);color:#B7C3D4;padding:48px 0 28px;font-size:14px}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:28px}
+footer b{color:#fff;font-size:16px}
+footer h4{margin:0 0 12px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#93A3BA}
+footer a{color:#DCE4EF;text-decoration:none;display:block;margin-bottom:6px}footer a:hover{color:#fff}
+.pay{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}.pay span{background:rgba(255,255,255,.1);border-radius:5px;padding:3px 8px;font-size:12px;font-weight:600;color:#fff}
+.copy{border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:18px;color:#93A3BA;font-size:13px}
+@media(max-width:720px){footer .cols{grid-template-columns:1fr}}
 /* Warenkorb */
-.scrim{position:fixed;inset:0;background:rgba(15,36,48,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.scrim{position:fixed;inset:0;background:rgba(20,40,70,.4);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
 .scrim.on{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:#fff;z-index:50;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
 .drawer.on{transform:none}
 .d-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
 .d-head h2{font-size:20px;margin:0}
-.x{border:0;background:var(--bg);width:36px;height:36px;border-radius:10px;font-size:18px}
+.x{border:0;background:var(--bg);width:36px;height:36px;border-radius:8px;font-size:18px;color:var(--navy)}
 .d-body{flex:1;overflow:auto;padding:16px 20px 24px}
 .li{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.li .t{flex:1;font-size:14px}.li .t b{display:block;font-size:15px}.li .t span{color:var(--muted)}
+.li .t{flex:1;font-size:14px}.li .t b{display:block;font-size:15px;color:var(--navy)}.li .t span{color:var(--muted)}
 .li .sum{font-weight:700;min-width:64px;text-align:right}
 .tot{margin:14px 0;font-size:15px}.tot div{display:flex;justify-content:space-between;padding:3px 0}
-.tot .g{font-weight:800;font-size:18px;border-top:1px solid var(--line);margin-top:6px;padding-top:10px}
-.hint{font-size:13px;color:var(--brand);background:var(--soft);border-radius:10px;padding:8px 12px}
+.tot .g{font-weight:800;font-size:18px;border-top:1px solid var(--line);margin-top:6px;padding-top:10px;color:var(--navy)}
+.hint{font-size:13px;color:var(--blue);background:#EEF3F9;border-radius:8px;padding:8px 12px}
 form{display:grid;gap:10px;margin-top:6px}
-form h3{margin:14px 0 2px;font-size:16px}
+form h3{margin:14px 0 2px;font-size:16px;color:var(--navy)}
 .two{display:grid;grid-template-columns:1fr 2fr;gap:10px}
-label{font-size:13px;font-weight:600;color:var(--muted);display:grid;gap:4px}
-input,select,textarea{font:inherit;font-size:16px;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;color:var(--ink);background:#fff;width:100%}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand2);box-shadow:0 0 0 3px var(--soft)}
-.chk{display:flex;gap:10px;align-items:flex-start;font-weight:500;color:var(--ink);font-size:14px}.chk input{width:18px;height:18px;margin-top:2px;flex:none}
+label{font-size:13px;font-weight:500;color:var(--muted);display:grid;gap:4px}
+input,select,textarea{font:inherit;font-size:16px;border:1px solid #CBD3DE;border-radius:8px;padding:11px 12px;color:var(--ink);background:#fff;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px #E1EAF4}
+.chk{display:flex;gap:10px;align-items:flex-start;font-weight:400;color:var(--ink);font-size:14px}.chk input{width:18px;height:18px;margin-top:2px;flex:none}
 .err{color:var(--err);font-size:14px;font-weight:600;min-height:1em}
 .empty{text-align:center;color:var(--muted);padding:40px 0}
 .done{text-align:center;padding:24px 0}.done .ok{width:64px;height:64px;border-radius:50%;background:#E3F4EA;color:var(--ok);display:grid;place-items:center;margin:0 auto 14px;font-size:30px}
 .secure{display:flex;gap:8px;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
-dialog{border:0;border-radius:18px;padding:24px;max-width:640px;width:calc(100% - 32px);max-height:85vh;color:var(--ink)}
-dialog::backdrop{background:rgba(15,36,48,.5)}dialog h2{font-size:22px}dialog h3{font-size:16px;margin:16px 0 4px}dialog p{color:var(--muted);margin:0 0 8px}
-.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;font-size:14px;transition:.25s;z-index:60}
+dialog{border:0;border-radius:14px;padding:24px;max-width:680px;width:calc(100% - 32px);max-height:85vh;color:var(--ink)}
+dialog::backdrop{background:rgba(20,40,70,.5)}dialog h2{font-size:22px}dialog h3{font-size:16px;margin:16px 0 4px;color:var(--navy)}dialog p{color:var(--muted);margin:0 0 8px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;background:var(--navy);color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;font-size:14px;transition:.25s;z-index:60}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
-<div class="top">Versand in Österreich & Deutschland · Gratisversand ab <span class="gratisAb">49 €</span> · Sichere Online-Zahlung</div>
 <header><div class="wrap">
-  <a class="logo" href="#"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg></i><div>Pinpoint Medical<small>Medizinbedarf</small></div></a>
-  <div style="display:flex;align-items:center"><nav><a href="#shop">Sortiment</a><a href="#versand">Versand</a><a href="#faq">FAQ</a></nav>
-  <button class="cartbtn" id="openCart" aria-label="Warenkorb öffnen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>Warenkorb <span class="n" id="count">0</span></button></div>
+  <a class="brand" href="#">PINPOINTMEDICAL</a>
+  <nav><a href="#shop">Shop</a><a href="#guides">Guides</a><a href="#qualitaet">Qualitätszertifikate</a><a href="#kontakt">Kontakt</a></nav>
+  <div class="hr"><button class="cartbtn" id="openCart" aria-label="Warenkorb öffnen"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2.5 3h2.4l2.4 11.4a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.5L21.5 7H6"/></svg><span class="n" id="count"></span></button></div>
 </div></header>
 
 <main>
 <div class="hero"><div class="wrap">
-  <div>
-    <span class="badge">● Steril verpackt · Versand in 24 h</span>
-    <h1>Medizinbedarf, <span>präzise</span> und unkompliziert.</h1>
-    <p class="lead">Bakteriostatisches Wasser, Insulinspritzen und Alkoholtupfer – in geprüfter Qualität, diskret verpackt und sicher online bezahlt.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="#shop">Zum Sortiment</a><a class="btn ghost" href="#versand">Versand & Zahlung</a></div>
+  <!-- Logo -->
+  <svg class="logo" viewBox="0 0 420 150" role="img" aria-label="Pinpoint Medical">
+    <g fill="#1B3358" font-family="Montserrat, Inter, sans-serif" font-weight="800" font-size="62">
+      <text x="14" y="86" textLength="42" lengthAdjust="spacingAndGlyphs">P</text>
+      <text x="94" y="86" textLength="246" lengthAdjust="spacing">NPOIN</text>
+    </g>
+    <!-- I als Ampulle -->
+    <g transform="translate(64 40)">
+      <rect x="4" y="0" width="12" height="7" rx="2" fill="#1B3358"/>
+      <path d="M2 10h16v30a8 8 0 0 1-16 0z" fill="#1B3358"/>
+      <path d="M10 22c-3 4-4.6 6.3-4.6 8.4a4.6 4.6 0 0 0 9.2 0c0-2.1-1.6-4.4-4.6-8.4z" fill="#5FB3B3"/>
+    </g>
+    <!-- T als Spritze -->
+    <g transform="translate(350 0)">
+      <path d="M21 4v36" stroke="#1B3358" stroke-width="2"/>
+      <rect x="0" y="40" width="42" height="9" fill="#1B3358"/>
+      <rect x="14" y="49" width="14" height="40" fill="#fff" stroke="#3E8E8E" stroke-width="3"/>
+      <path d="M16 58h7M16 66h9M16 74h7M16 82h9" stroke="#3E8E8E" stroke-width="2"/>
+      <path d="M21 89v10M13 99h16" stroke="#3E8E8E" stroke-width="3"/>
+    </g>
+    <path d="M14 124h56M336 124h56" stroke="#3E8E8E" stroke-width="2.5"/>
+    <text x="203" y="133" text-anchor="middle" fill="#4A5568" font-family="Montserrat, Inter, sans-serif" font-weight="500" font-size="26" letter-spacing="13" textLength="240" lengthAdjust="spacing">MEDICAL</text>
+  </svg>
+  <div class="eyebrow">Medizinisches Verbrauchsmaterial</div>
+  <p class="intro">Deine Quelle für günstiges medizinisches Verbrauchsmaterial. Spritzen, Nadeln, BAC Water und Zubehör — CE-zertifiziert, steril, schnell geliefert.</p>
+  <div class="claim">
+    <h1>Apothekenqualität.<span>Ohne Apothekenpreise.</span></h1>
+    <div class="btns"><a class="btn" href="#shop">Zum Shop <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn ghost" href="#qualitaet">Qualitätszertifikate</a></div>
   </div>
-  <div class="hero-card"><ul>
-    <li><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div><div><b>Steril & einzeln verpackt</b><span>Einmalprodukte mit CE-Kennzeichnung</span></div></li>
-    <li><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="13" height="10" rx="1"/><path d="M15 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><div><b>Schneller, diskreter Versand</b><span>Neutrale Verpackung, Sendungsnummer per E-Mail</span></div></li>
-    <li><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div><div><b>Sicher online bezahlen</b><span>Karte, Apple Pay & Google Pay über SumUp</span></div></li>
-  </ul></div>
 </div></div>
 
-<div class="wrap"><div class="trust">
-  <div><b>CE-zertifiziert</b>Geprüfte Medizinprodukte</div>
-  <div><b>Versand ab <span class="versandTxt">4,90 €</span></b>Gratis ab <span class="gratisAb">49 €</span></div>
-  <div><b>Diskret</b>Neutrale Verpackung</div>
-  <div><b>Graz, Österreich</b>Versand aus Österreich</div>
+<div class="strip"><div class="wrap">
+  <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5 14.6 4l3 .2.9 2.8 2.1 2.1-.8 2.9.8 2.9-2.1 2.1-.9 2.8-3 .2L12 21.5 9.4 20l-3-.2-.9-2.8-2.1-2.1.8-2.9-.8-2.9 2.1-2.1.9-2.8 3-.2z"/><path d="m8.5 12 2.4 2.4 4.6-4.8"/></svg>CE-zertifizierte Produkte</div>
+  <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1.5" y="6" width="13" height="10" rx="1"/><path d="M14.5 9.5h4l3 3.5v3h-7"/><circle cx="6" cy="17.5" r="2"/><circle cx="18" cy="17.5" r="2"/></svg>Versand innerhalb 24h</div>
+  <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.4"/></svg>Beste Preise in Europa</div>
 </div></div>
 
-<section id="shop"><div class="wrap">
-  <h2>Sortiment</h2>
-  <p class="sub">Alle Preise in Euro inkl. USt., zzgl. Versand.</p>
+<section id="shop" class="alt"><div class="wrap">
+  <div class="eyebrow">Shop</div>
+  <h2>Alle Produkte</h2>
+  <p class="sub">Hochwertiges medizinisches Verbrauchsmaterial — sofort verfügbar, CE-zertifiziert, versandfertig innerhalb 24h. Alle Preise inkl. USt., zzgl. Versand.</p>
   <div class="tabs" id="tabs"></div>
   <div class="grid" id="grid"><p class="empty">Sortiment wird geladen …</p></div>
 </div></section>
 
-<section id="versand" style="padding-top:12px"><div class="wrap">
-  <h2>So funktioniert's</h2><p class="sub">Bestellen, online bezahlen, fertig.</p>
-  <div class="info">
-    <div><div class="ic">1</div><h3>Warenkorb füllen</h3><p>Produkte auswählen, Lieferadresse eingeben.</p></div>
-    <div><div class="ic">2</div><h3>Online bezahlen</h3><p>Sicher über SumUp mit Kreditkarte, Debitkarte, Apple Pay oder Google Pay. Andere Zahlungsarten bieten wir nicht an.</p></div>
-    <div><div class="ic">3</div><h3>Versand</h3><p>Nach Zahlungseingang verschicken wir innerhalb von 1–2 Werktagen. Versand <span class="versandTxt">4,90 €</span> (DE + 3 €), ab <span class="gratisAb">49 €</span> gratis.</p></div>
+<section id="guides"><div class="wrap">
+  <div class="center"><div class="eyebrow">Guides</div><h2>Rekonstitution & Dosierrechner</h2>
+  <p class="sub">Schritt für Schritt zur sterilen Lösung – und der Rechner zeigt dir, wie viele Einheiten du auf einer U-100-Spritze aufziehst.</p></div>
+  <div class="gtabs" role="tablist"><button type="button" class="on" data-g="rechner">Dosierrechner</button><button type="button" data-g="rekon">Rekonstitution</button></div>
+
+  <div class="gpanel" id="g-rechner">
+    <div class="calc">
+      <div class="cin">
+        <label>Wirkstoffmenge in der Durchstechflasche
+          <div class="unit"><input id="cMg" type="number" inputmode="decimal" min="0" step="0.1" value="5"><span>mg</span></div></label>
+        <label>Menge bakteriostatisches Wasser
+          <div class="unit"><input id="cMl" type="number" inputmode="decimal" min="0" step="0.1" value="2"><span>ml</span></div></label>
+        <div class="chips" data-for="cMl"><button type="button" data-v="1">1 ml</button><button type="button" data-v="2">2 ml</button><button type="button" data-v="3">3 ml</button><button type="button" data-v="5">5 ml</button></div>
+        <label>Gewünschte Einzeldosis
+          <div class="unit"><input id="cDose" type="number" inputmode="decimal" min="0" step="any" value="250"><select id="cDoseU"><option value="mcg">mcg</option><option value="mg">mg</option></select></div></label>
+        <label>Spritzengröße (U-100)
+          <select id="cSyr"><option value="0.3">0,3 ml (30 Einheiten)</option><option value="0.5">0,5 ml (50 Einheiten)</option><option value="1" selected>1 ml (100 Einheiten)</option></select></label>
+      </div>
+      <div class="cout">
+        <div class="big"><span id="oUnits">–</span><small>Einheiten (IU) aufziehen</small></div>
+        <div class="syr" aria-hidden="true"><div class="barrel"><div class="fill" id="oFill"></div><div class="ticks" id="oTicks"></div></div><div class="needle"></div></div>
+        <div class="kv"><div><span>Aufzuziehendes Volumen</span><b id="oMl">–</b></div>
+          <div><span>Konzentration</span><b id="oConc">–</b></div>
+          <div><span>Wirkstoff pro Einheit</span><b id="oPerU">–</b></div>
+          <div><span>Dosen pro Durchstechflasche</span><b id="oDoses">–</b></div></div>
+        <p class="warn" id="oWarn"></p>
+      </div>
+    </div>
+    <p class="fine">Der Rechner rechnet nur um – er empfiehlt keine Dosis. Die Dosis legt deine Ärztin oder dein Arzt fest. 1 ml = 100 Einheiten auf einer U-100-Insulinspritze.</p>
+  </div>
+
+  <div class="gpanel" id="g-rekon" hidden>
+    <ol class="steps">
+      <li><b>Vorbereiten</b><span>Hände waschen, saubere Arbeitsfläche. Bereitlegen: Durchstechflasche mit Wirkstoff, bakteriostatisches Wasser, sterile Spritze, Alkoholtupfer. Ablaufdaten prüfen.</span></li>
+      <li><b>Desinfizieren</b><span>Schutzkappen abnehmen und beide Gummistopfen mit einem frischen Alkoholtupfer abwischen. 20–30 Sekunden trocknen lassen.</span></li>
+      <li><b>Wasser aufziehen</b><span>Die im Rechner gewählte Menge bakteriostatisches Wasser aufziehen. Vorher gleich viel Luft in die Wasserflasche drücken, dann lässt es sich leichter aufziehen.</span></li>
+      <li><b>Langsam einspritzen</b><span>Nadel schräg in die Wirkstoff-Flasche stechen und das Wasser langsam an der Glaswand entlang laufen lassen – nicht direkt auf das Pulver spritzen.</span></li>
+      <li><b>Lösen lassen</b><span>Flasche sanft schwenken oder zwischen den Handflächen rollen. Nicht schütteln. Die Lösung sollte klar und frei von Partikeln sein – sonst nicht verwenden.</span></li>
+      <li><b>Beschriften & lagern</b><span>Datum der Rekonstitution und Konzentration auf die Flasche schreiben. Gekühlt bei 2–8 °C, lichtgeschützt lagern und die Haltbarkeitsangabe des Herstellers beachten.</span></li>
+      <li><b>Entnehmen</b><span>Vor jeder Entnahme Stopfen desinfizieren, immer eine neue sterile Spritze verwenden. Gebrauchte Spritzen in einen durchstichsicheren Behälter.</span></li>
+    </ol>
+    <div class="notice">Spritzen nie teilen oder wiederverwenden. Bei Rötung, Schwellung oder Fieber nach einer Injektion ärztlich abklären lassen.</div>
   </div>
 </div></section>
 
-<section id="faq" style="padding-top:12px"><div class="wrap" style="max-width:820px">
-  <h2>Häufige Fragen</h2><p class="sub">Alles Wichtige auf einen Blick.</p>
-  <details><summary>Welche Zahlungsarten gibt es?</summary><p>Ausschließlich Online-Zahlung über SumUp: Kredit- und Debitkarten (Visa, Mastercard, Maestro), Apple Pay und Google Pay. Keine Vorkasse per Überweisung, keine Nachnahme.</p></details>
-  <details><summary>Wann wird meine Bestellung verschickt?</summary><p>Sobald die Zahlung bestätigt ist, in der Regel innerhalb von 1–2 Werktagen. Du bekommst eine Bestätigung per E-Mail.</p></details>
-  <details><summary>Wohin liefert ihr?</summary><p>Nach Österreich und Deutschland.</p></details>
-  <details><summary>Kann ich Produkte zurückgeben?</summary><p>Aus Hygienegründen sind geöffnete Sterilprodukte vom Rücktritt ausgeschlossen. Ungeöffnete, versiegelte Ware kannst du innerhalb von 14 Tagen zurückschicken – Details in den AGB.</p></details>
-  <details><summary>Wie entsorge ich gebrauchte Spritzen?</summary><p>Gebrauchte Kanülen nie in den Hausmüll werfen. Sammle sie in einem durchstichsicheren Behälter und gib sie in einer Apotheke oder beim Altstoffsammelzentrum ab.</p></details>
-  <div class="notice" style="margin-top:16px">Unsere Produkte sind Zubehör und ersetzen keine ärztliche Beratung. Bei Fragen zur Anwendung wende dich an deine Ärztin, deinen Arzt oder deine Apotheke.</div>
+<section id="qualitaet" class="alt"><div class="wrap">
+  <div class="center"><div class="eyebrow">Qualitätszertifikate</div>
+  <h2>Medizinische Produkte, denen Sie vertrauen können</h2>
+  <p class="sub">Wir liefern medizinisches Verbrauchsmaterial in geprüfter Qualität — schnell, diskret und zum fairsten Preis. Alle Produkte sind CE-zertifiziert und entsprechen den europäischen Standards für Medizinprodukte (MDR 2017/745).</p></div>
+  <div class="q">
+    <div><div class="ic">CE</div><h3>CE-Kennzeichnung</h3><p>Medizinprodukte nach EU-Verordnung 2017/745 (MDR), mit Konformitätserklärung des Herstellers.</p></div>
+    <div><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Steril & einzeln verpackt</h3><p>Einmalprodukte, sterilisiert und einzeln versiegelt – Chargennummer und Ablaufdatum auf jeder Packung.</p></div>
+    <div><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div><h3>Sichere Online-Zahlung</h3><p>Bezahlung ausschließlich online über SumUp – Karte, Apple Pay oder Google Pay. Versand sofort nach Zahlungseingang.</p></div>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap" style="max-width:820px">
+  <div class="center"><div class="eyebrow">FAQ</div><h2>Häufige Fragen</h2><p class="sub">Alles Wichtige zu Bestellung, Zahlung und Versand.</p></div>
+  <details><summary>Welche Zahlungsarten gibt es?</summary><p>Ausschließlich Online-Zahlung über SumUp: Kredit- und Debitkarten (Visa, Mastercard, Maestro), Apple Pay und Google Pay. Keine Überweisung, keine Nachnahme.</p></details>
+  <details><summary>Wie hoch sind die Versandkosten?</summary><p>Nach Österreich <span class="versandTxt">4,90 €</span>, nach Deutschland 3 € mehr. Ab <span class="gratisAb">49 €</span> Bestellwert versenden wir gratis.</p></details>
+  <details><summary>Wann wird meine Bestellung verschickt?</summary><p>Sobald die Zahlung bestätigt ist, innerhalb von 24 Stunden an Werktagen. Du bekommst eine Bestätigung per E-Mail.</p></details>
+  <details><summary>Kann ich Produkte zurückgeben?</summary><p>Ungeöffnete, versiegelte Ware innerhalb von 14 Tagen. Aus Hygienegründen sind geöffnete Sterilverpackungen vom Rücktritt ausgeschlossen – Details im Widerrufsrecht.</p></details>
+  <details><summary>Wie entsorge ich gebrauchte Spritzen?</summary><p>Gebrauchte Kanülen nie in den Hausmüll. In einem durchstichsicheren Behälter sammeln und in der Apotheke oder beim Altstoffsammelzentrum abgeben.</p></details>
+  <div class="notice">Unsere Produkte sind Medizinprodukte für den bestimmungsgemäßen Gebrauch und ersetzen keine ärztliche Beratung. Bei Fragen zur Anwendung wende dich an deine Ärztin, deinen Arzt oder deine Apotheke.</div>
 </div></section>
 </main>
 
-<footer><div class="wrap">
-  <div><b>Pinpoint Medical</b><br>Medizinbedarf aus Graz<br><span id="ftMail"></span><div class="pay"><span>VISA</span><span>Mastercard</span><span>Apple Pay</span><span>Google Pay</span><span>SumUp</span></div></div>
-  <div style="align-self:flex-end"><a href="#" data-legal="impressum">Impressum</a><a href="#" data-legal="agb">AGB</a><a href="#" data-legal="widerruf">Widerruf</a><a href="#" data-legal="datenschutz">Datenschutz</a><div style="margin-top:10px">© <span id="yr"></span> Pinpoint Medical</div></div>
+<footer id="kontakt"><div class="wrap">
+  <div class="cols">
+    <div><b>Pinpoint Medical</b><p style="margin:8px 0 0;max-width:320px">CE-zertifiziertes medizinisches Verbrauchsmaterial — Präzision, Qualität, schneller Versand.</p>
+      <div class="pay"><span>VISA</span><span>Mastercard</span><span>Apple Pay</span><span>Google Pay</span><span>SumUp</span></div></div>
+    <div><h4>Rechtliches</h4><a href="#" data-legal="impressum">Impressum</a><a href="#" data-legal="agb">AGB</a><a href="#" data-legal="datenschutz">Datenschutz</a><a href="#" data-legal="widerruf">Widerrufsrecht</a></div>
+    <div><h4>Kontakt</h4><a id="ftMail" href="#"></a></div>
+  </div>
+  <div class="copy">© <span id="yr"></span> Pinpoint Medical · Jubal Pfister · Graz, Österreich</div>
 </div></footer>
 
 <div class="scrim" id="scrim"></div>
@@ -191,14 +295,14 @@ dialog::backdrop{background:rgba(15,36,48,.5)}dialog h2{font-size:22px}dialog h3
 <script>
 /* ============ EINSTELLUNGEN – hier anpassen ============ */
 const CONFIG = {
-  email: "pinpointmedical.at@gmail.com",   // Kontakt-E-Mail (anpassen)
+  email: "info@pinpointmedical.shop",
   supabaseUrl: "https://smjspmfvdjvyohpoqxgl.supabase.co",
   supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtanNwbWZ2ZGp2eW9ocG9xeGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM0NDI0NjcsImV4cCI6MjEwOTAxODQ2N30.qigoZ7S6dn5lZDXcOxsTQDolnVPsaod2UH-9Ns1M5ak",
-  impressum: {             // Pflicht laut ECG/UGB – vor Veröffentlichung ausfüllen!
-    name: "[Vor- und Nachname / Firma]",
-    address: "[Straße Nr., 8010 Graz]",
-    email: "pinpointmedical.at@gmail.com",
-    phone: "[Telefonnummer]",
+  impressum: {
+    name: "Jubal Pfister",
+    address: "Millöckergasse 39, 8010 Graz, Österreich",
+    email: "info@pinpointmedical.shop",
+    gegenstand: "Einzelhandel mit medizinischen Verbrauchsmaterialien (Einwegspritzen, Nadeln, Zubehör)",
     gewerbe: "Handelsgewerbe, Gewerbebehörde: Magistrat Graz",
     uid: "[UID-Nummer, falls vorhanden]",
     kammer: "Wirtschaftskammer Steiermark"
@@ -213,15 +317,15 @@ const store = { get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch{
 const toast = t => { const el = $("toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove("on"), 1800); };
 
 let PRODUKTE = [], EINST = { versand: 4.90, gratis_ab: 49, shop_offen: true }, KAT = "Alle";
-let CART = store.get("pm_cart") || {};          // { id: menge }
+let CART = store.get("pm_cart") || {};
 let VIEW = "cart";                               // cart | checkout | paying | done
-let ORDER = store.get("pm_order") || null;       // { id, code, gesamt }
+let ORDER = store.get("pm_order") || null;
 const save = () => store.set("pm_cart", CART);
 
 const ICONS = {
-  "Lösungen": `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"><rect x="24" y="6" width="16" height="8" rx="2"/><path d="M26 14v6c-6 2-8 6-8 12v20a6 6 0 0 0 6 6h16a6 6 0 0 0 6-6V32c0-6-2-10-8-12v-6"/><path d="M18 38h28" opacity=".5"/><rect x="24" y="42" width="16" height="9" rx="2" fill="currentColor" opacity=".15"/></svg>`,
-  "Spritzen": `<svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m44 8 12 12M50 14l-6 6M47 17 19 45l-7 1 1-7 28-28z"/><path d="m13 51-7 7"/><path d="m28 30 4 4M34 24l4 4" opacity=".5"/></svg>`,
-  "Desinfektion": `<svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"><rect x="10" y="16" width="44" height="32" rx="4"/><path d="M10 24h44" opacity=".5"/><path d="M32 30v12M26 36h12"/></svg>`
+  "Lösungen": `<svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="24" y="6" width="16" height="8" rx="2" fill="currentColor"/><path d="M26 14v5c-6 2-8 6-8 12v21a6 6 0 0 0 6 6h16a6 6 0 0 0 6-6V31c0-6-2-10-8-12v-5"/><rect x="22" y="36" width="20" height="13" rx="2" class="acc" stroke="currentColor"/><path class="acc" d="M32 39.5c-2 2.6-3 4-3 5.2a3 3 0 0 0 6 0c0-1.2-1-2.6-3-5.2z" fill="currentColor" stroke="none"/></svg>`,
+  "Spritzen": `<svg width="76" height="76" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m44 8 12 12M50 14l-6 6"/><path d="M47 17 19 45l-7 1 1-7 28-28z"/><path d="m13 51-7 7" class="acc"/><path d="m27 31 3 3M33 25l3 3M21 37l3 3" class="acc"/></svg>`,
+  "Desinfektion": `<svg width="70" height="70" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="10" y="16" width="44" height="32" rx="4"/><path d="M10 16l6 6M54 16l-6 6M10 48l6-6M54 48l-6-6" opacity=".35"/><path class="acc" d="M32 26v12M26 32h12"/></svg>`
 };
 const icon = k => ICONS[k] || ICONS["Desinfektion"];
 
@@ -251,8 +355,8 @@ function renderShop(){
     const ctrl = !EINST.shop_offen ? `<button class="add" disabled>Pausiert</button>`
       : b <= 0 ? `<button class="add" disabled>Ausverkauft</button>`
       : q ? `<div class="qty"><button data-dec="${p.id}" aria-label="Weniger">−</button><span>${q}</span><button data-inc="${p.id}" aria-label="Mehr">+</button></div>`
-      : `<button class="add" data-inc="${p.id}">Hinzufügen</button>`;
-    return `<article class="p"><div class="img"><span class="tag">${esc(p.kategorie)}</span>${icon(p.kategorie)}</div>
+      : `<button class="add" data-inc="${p.id}">In den Warenkorb</button>`;
+    return `<article class="p"><div class="img"><span class="tag">${esc(p.kategorie)}</span><span class="ce">CE</span>${icon(p.kategorie)}</div>
       <div class="body"><h3>${esc(p.name)}</h3><div class="var">${esc(p.variante || "")}</div><p class="desc">${esc(p.beschreibung || "")}</p>${st}
       <div class="row"><div class="price">${eur(p.preis)}<small>inkl. USt.</small></div>${ctrl}</div></div></article>`;
   }).join("") || `<p class="empty">Keine Produkte in dieser Kategorie.</p>`;
@@ -281,23 +385,23 @@ function versand(zw, land){ return (zw >= EINST.gratis_ab ? 0 : Number(EINST.ver
 
 function render(){
   const { pos, zw, n } = summen();
-  $("count").textContent = n;
+  $("count").textContent = n || "";
   const B = $("dBody");
   if (VIEW === "done" && ORDER){
     $("dTitle").textContent = "Danke!";
     B.innerHTML = `<div class="done"><div class="ok">✓</div><h2 style="font-size:22px">Zahlung erhalten</h2>
-      <p class="sub" style="margin:6px 0 18px">Bestellung <b>#${esc(ORDER.code)}</b> über ${eur(ORDER.gesamt)} ist bezahlt. Wir verschicken sie in 1–2 Werktagen und melden uns per E-Mail.</p>
+      <p class="sub" style="margin:6px auto 18px">Bestellung <b>#${esc(ORDER.code)}</b> über ${eur(ORDER.gesamt)} ist bezahlt. Wir verschicken sie innerhalb von 24 Stunden und melden uns per E-Mail.</p>
       <button class="btn" id="weiter">Weiter einkaufen</button></div>`; return;
   }
   if (VIEW === "paying" && ORDER){
     $("dTitle").textContent = "Zahlung";
-    B.innerHTML = `<div class="done"><div class="ok" style="background:var(--soft);color:var(--brand)">€</div><h2 style="font-size:20px">Bestellung #${esc(ORDER.code)}</h2>
-      <p class="sub" style="margin:6px 0 18px">Offen: <b>${eur(ORDER.gesamt)}</b>. Die Bestellung wird erst nach erfolgreicher Online-Zahlung bearbeitet.</p>
+    B.innerHTML = `<div class="done"><div class="ok" style="background:#EEF3F9;color:var(--blue)">€</div><h2 style="font-size:20px">Bestellung #${esc(ORDER.code)}</h2>
+      <p class="sub" style="margin:6px auto 18px">Offen: <b>${eur(ORDER.gesamt)}</b>. Die Bestellung wird erst nach erfolgreicher Online-Zahlung bearbeitet.</p>
       <div style="display:grid;gap:8px"><button class="btn" id="payNow">Jetzt bezahlen</button><button class="btn ghost" id="payCheck">Ich habe bezahlt – Status prüfen</button></div>
       <p class="err" id="payMsg" style="margin-top:12px"></p><button type="button" id="payCancel" style="border:0;background:none;color:var(--muted);text-decoration:underline;margin-top:6px">Abbrechen und neu bestellen</button></div>`; return;
   }
   $("dTitle").textContent = VIEW === "checkout" ? "Kasse" : "Warenkorb";
-  if (!pos.length){ B.innerHTML = `<div class="empty">Dein Warenkorb ist leer.<br><br><button class="btn" id="zumShop">Zum Sortiment</button></div>`; return; }
+  if (!pos.length){ B.innerHTML = `<div class="empty">Dein Warenkorb ist leer.<br><br><button class="btn" id="zumShop">Zum Shop</button></div>`; return; }
   const land = ($("fLand") && $("fLand").value) || (store.get("pm_kunde") || {}).land || "AT";
   const vs = versand(zw, land);
   const items = pos.map(({ p, m }) => `<div class="li"><div class="t"><b>${esc(p.name)}</b><span>${esc(p.variante || "")} · ${eur(p.preis)}</span></div>
@@ -317,7 +421,7 @@ function render(){
     <div class="two"><label>PLZ<input id="fPlz" inputmode="numeric" autocomplete="postal-code" value="${esc(k.plz)}" required></label><label>Ort<input id="fOrt" autocomplete="address-level2" value="${esc(k.ort)}" required></label></div>
     <label>Land<select id="fLand"><option value="AT"${land === "AT" ? " selected" : ""}>Österreich</option><option value="DE"${land === "DE" ? " selected" : ""}>Deutschland</option></select></label>
     <label>Anmerkung (optional)<textarea id="fNotiz" rows="2" maxlength="500"></textarea></label>
-    <label class="chk"><input type="checkbox" id="fAgb"><span>Ich akzeptiere die <a href="#" data-legal="agb">AGB</a> und habe die <a href="#" data-legal="widerruf">Widerrufsbelehrung</a> und <a href="#" data-legal="datenschutz">Datenschutzerklärung</a> gelesen.</span></label>
+    <label class="chk"><input type="checkbox" id="fAgb"><span>Ich akzeptiere die <a href="#" data-legal="agb">AGB</a> und habe das <a href="#" data-legal="widerruf">Widerrufsrecht</a> und die <a href="#" data-legal="datenschutz">Datenschutzerklärung</a> gelesen.</span></label>
     <label class="chk"><input type="checkbox" id="fMerk" ${k.name ? "checked" : ""}><span>Meine Daten auf diesem Gerät merken</span></label>
     <p class="err" id="err"></p>
     <button class="btn" id="send" type="submit">Zahlungspflichtig bestellen · ${eur(zw + vs)}</button>
@@ -335,7 +439,7 @@ $("dBody").addEventListener("click", e => {
   if (id === "payCheck") zahlungPruefen(ORDER.id);
   if (id === "payCancel"){ ORDER = null; store.del("pm_order"); VIEW = "cart"; render(); }
 });
-$("dBody").addEventListener("change", e => { if (e.target.id === "fLand"){ const k = formDaten(); store.set("pm_tmp", k); render(); fuellen(k); } });
+$("dBody").addEventListener("change", e => { if (e.target.id === "fLand"){ const k = formDaten(); render(); fuellen(k); } });
 function formDaten(){ const v = id => ($(id) ? $(id).value.trim() : ""); return { name:v("fName"), email:v("fMail"), tel:v("fTel"), strasse:v("fStr"), plz:v("fPlz"), ort:v("fOrt"), land:v("fLand") || "AT", notiz:v("fNotiz") }; }
 function fuellen(k){ const m = { fName:"name", fMail:"email", fTel:"tel", fStr:"strasse", fPlz:"plz", fOrt:"ort", fNotiz:"notiz" }; for (const f in m) if ($(f) && k[m[f]] != null) $(f).value = k[m[f]]; }
 
@@ -345,7 +449,7 @@ $("dBody").addEventListener("submit", async e => {
   if (!k.name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(k.email) || !k.strasse || !/^\d{4,5}$/.test(k.plz) || !k.ort){ err.textContent = "Bitte Name, gültige E-Mail und vollständige Lieferadresse angeben."; return; }
   if (!$("fAgb").checked){ err.textContent = "Bitte die AGB akzeptieren."; return; }
   if ($("fMerk").checked) store.set("pm_kunde", { ...k, notiz: undefined }); else store.del("pm_kunde");
-  const btn = $("send"); btn.disabled = true; btn.textContent = "Bestellung wird angelegt …"; err.textContent = "";
+  const btn = $("send"), label = btn.textContent; btn.disabled = true; btn.textContent = "Bestellung wird angelegt …"; err.textContent = "";
   try{
     const r = await fetch(`${CONFIG.supabaseUrl}/rest/v1/rpc/pm_bestellung_anlegen`, { method:"POST", headers:{ ...H, "Content-Type":"application/json" },
       body: JSON.stringify({ p_kunde: k, p_positionen: Object.entries(CART).map(([id, menge]) => ({ id, menge })) }) });
@@ -353,7 +457,7 @@ $("dBody").addEventListener("submit", async e => {
     if (!r.ok) throw new Error(j.message || "Bestellung fehlgeschlagen.");
     ORDER = { id: j.id, code: j.code, gesamt: Number(j.gesamt), t: Date.now() }; store.set("pm_order", ORDER);
     VIEW = "paying"; render(); zahlungStarten();
-  }catch(x){ err.textContent = x.message; btn.disabled = false; btn.textContent = "Zahlungspflichtig bestellen"; }
+  }catch(x){ err.textContent = x.message; btn.disabled = false; btn.textContent = label; }
 });
 
 /* Online-Zahlung (SumUp) */
@@ -377,7 +481,6 @@ async function zahlungPruefen(id, still){
 }
 function bezahltFertig(){ CART = {}; save(); VIEW = "done"; store.del("pm_order"); renderShop(); render(); openCart(); }
 
-/* Warenkorb öffnen/schließen */
 function openCart(){ $("drawer").classList.add("on"); $("scrim").classList.add("on"); $("drawer").setAttribute("aria-hidden","false"); }
 function closeCart(){ $("drawer").classList.remove("on"); $("scrim").classList.remove("on"); $("drawer").setAttribute("aria-hidden","true"); if (VIEW === "done"){ VIEW = "cart"; ORDER = null; render(); } }
 $("openCart").onclick = () => { if (VIEW === "checkout" && !Object.keys(CART).length) VIEW = "cart"; render(); openCart(); };
@@ -396,22 +499,24 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") closeCart();
 /* Rechtstexte – vor dem Livegang rechtlich prüfen lassen */
 const I = CONFIG.impressum;
 const LEGAL = {
-  impressum: `<h2>Impressum</h2><p>Informationspflicht laut § 5 ECG und § 25 MedienG</p>
-    <h3>Anbieter</h3><p>${I.name}<br>${I.address}<br>E-Mail: ${I.email}<br>Telefon: ${I.phone}</p>
-    <h3>Unternehmen</h3><p>Gewerbe: ${I.gewerbe}<br>UID: ${I.uid}<br>Mitglied der ${I.kammer}<br>Anwendbare Rechtsvorschriften: Gewerbeordnung, Medizinproduktegesetz, abrufbar unter ris.bka.gv.at</p>
-    <h3>Online-Streitbeilegung</h3><p>Verbraucher können sich mit Beschwerden an die Internetbeschwerdestelle (ombudsmann.at) wenden.</p>`,
+  impressum: `<h2>Impressum</h2><p>Angaben gemäß § 5 E-Commerce-Gesetz (ECG) und § 25 Mediengesetz</p>
+    <h3>Betreiber des Webshops</h3><p>${I.name}<br>${I.address}</p>
+    <h3>Kontakt</h3><p>E-Mail: ${I.email}<br>Website: www.pinpointmedical.shop</p>
+    <h3>Unternehmensgegenstand</h3><p>${I.gegenstand}</p>
+    <h3>Gewerbe</h3><p>${I.gewerbe}<br>UID: ${I.uid}<br>Mitglied der ${I.kammer}<br>Anwendbare Rechtsvorschriften: Gewerbeordnung (GewO 1994), abrufbar unter ris.bka.gv.at</p>
+    <h3>Haftungsausschluss</h3><p>Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Für Richtigkeit, Vollständigkeit und Aktualität übernimmt der Betreiber keine Gewähr. Die angebotenen Medizinprodukte dienen ausschließlich dem bestimmungsgemäßen Gebrauch.</p>`,
   agb: `<h2>AGB</h2>
-    <h3>Geltungsbereich</h3><p>Diese Bedingungen gelten für alle Bestellungen bei Pinpoint Medical (${I.name}) über diese Website.</p>
+    <h3>Geltungsbereich</h3><p>Diese Bedingungen gelten für alle Bestellungen bei Pinpoint Medical (${I.name}) über pinpointmedical.shop.</p>
     <h3>Vertragsabschluss</h3><p>Mit „Zahlungspflichtig bestellen“ gibst du ein verbindliches Angebot ab. Der Vertrag kommt mit erfolgreicher Online-Zahlung und unserer Bestätigung per E-Mail zustande. Nicht innerhalb von 60 Minuten bezahlte Bestellungen verfallen.</p>
     <h3>Preise und Zahlung</h3><p>Alle Preise in Euro inkl. USt. zzgl. Versandkosten. Die Zahlung erfolgt ausschließlich online über den Zahlungsdienstleister SumUp (Karte, Apple Pay, Google Pay).</p>
-    <h3>Versand</h3><p>Versand nach Österreich und Deutschland innerhalb von 1–2 Werktagen nach Zahlungseingang. Versandkosten laut Warenkorb.</p>
+    <h3>Versand</h3><p>Versand nach Österreich und Deutschland innerhalb von 24 Stunden an Werktagen nach Zahlungseingang. Versandkosten laut Warenkorb.</p>
     <h3>Gewährleistung</h3><p>Es gelten die gesetzlichen Gewährleistungsbestimmungen.</p>
-    <h3>Hinweis</h3><p>Die Produkte sind gemäß Gebrauchsinformation zu verwenden. Sie ersetzen keine ärztliche Beratung.</p>`,
-  widerruf: `<h2>Widerrufsbelehrung</h2>
+    <h3>Hinweis</h3><p>Die Produkte sind gemäß Gebrauchsinformation zu verwenden und ersetzen keine ärztliche Beratung.</p>`,
+  widerruf: `<h2>Widerrufsrecht</h2>
     <p>Verbraucher können binnen 14 Tagen ab Erhalt der Ware ohne Angabe von Gründen vom Vertrag zurücktreten (§ 11 FAGG). Eine formlose Erklärung an ${I.email} genügt. Die Kosten der Rücksendung trägst du.</p>
     <h3>Ausnahme</h3><p>Kein Rücktrittsrecht besteht bei versiegelten Waren, die aus Gründen des Gesundheitsschutzes oder der Hygiene nicht zur Rückgabe geeignet sind, wenn ihre Versiegelung nach der Lieferung entfernt wurde (§ 18 Abs. 1 Z 5 FAGG). Das betrifft geöffnete Sterilverpackungen.</p>
     <h3>Erstattung</h3><p>Wir erstatten den Kaufpreis binnen 14 Tagen nach Eingang der Ware über dasselbe Zahlungsmittel.</p>`,
-  datenschutz: `<h2>Datenschutz</h2>
+  datenschutz: `<h2>Datenschutzerklärung</h2>
     <p>Bestellung: Wir verarbeiten Name, E-Mail, optional Telefonnummer, Lieferadresse und bestellte Produkte zur Abwicklung und zum Versand (Art. 6 Abs. 1 lit. b DSGVO).</p>
     <p>Speicherung: Bestellungen liegen in unserer Datenbank (Auftragsverarbeiter: Supabase Inc.). Belegdaten bewahren wir 7 Jahre auf (§ 132 BAO).</p>
     <p>Zahlung: Die Zahlung wickelt SumUp Limited ab. Deine Kartendaten gibst du direkt bei SumUp ein; wir sehen sie nicht.</p>
@@ -422,7 +527,34 @@ const LEGAL = {
 document.addEventListener("click", e => { const k = e.target.dataset && e.target.dataset.legal; if (!k) return; e.preventDefault(); $("legalBody").innerHTML = LEGAL[k]; $("legalDlg").showModal(); });
 $("legalClose").onclick = () => $("legalDlg").close();
 $("yr").textContent = new Date().getFullYear();
-$("ftMail").innerHTML = `<a href="mailto:${CONFIG.email}">${CONFIG.email}</a>`;
+$("ftMail").textContent = CONFIG.email; $("ftMail").href = "mailto:" + CONFIG.email;
+
+/* Guides: Tabs + Dosierrechner */
+document.querySelector(".gtabs").onclick = e => { const g = e.target.dataset.g; if (!g) return;
+  document.querySelectorAll(".gtabs button").forEach(b => b.classList.toggle("on", b.dataset.g === g));
+  document.querySelectorAll(".gpanel").forEach(p => p.hidden = p.id !== "g-" + g); };
+const num = id => parseFloat(String($(id).value).replace(",", "."));
+const fmt = (n, d = 2) => n.toLocaleString("de-AT", { maximumFractionDigits: d });
+function rechnen(){
+  const mg = num("cMg"), ml = num("cMl"), syr = parseFloat($("cSyr").value);
+  let dose = num("cDose"); const doseMg = $("cDoseU").value === "mg" ? dose : dose / 1000;
+  const cap = Math.round(syr * 100), w = $("oWarn");
+  $("oTicks").innerHTML = Array.from({ length: cap / (cap > 50 ? 10 : 5) + 1 }, (_, i) => `<i class="${i % 2 ? "" : "l"}"></i>`).join("");
+  if (!(mg > 0) || !(ml > 0) || !(doseMg > 0)){ ["oUnits","oMl","oConc","oPerU","oDoses"].forEach(i => $(i).textContent = "–"); $("oFill").style.width = "0"; w.textContent = "Bitte alle Werte größer als 0 eingeben."; return; }
+  const conc = mg / ml, vol = doseMg / conc, units = vol * 100;
+  $("oUnits").textContent = fmt(units, 1);
+  $("oMl").textContent = fmt(vol, 3) + " ml";
+  $("oConc").textContent = fmt(conc, 3) + " mg/ml (" + fmt(conc * 1000, 0) + " mcg/ml)";
+  $("oPerU").textContent = fmt(conc * 10, 2) + " mcg";
+  $("oDoses").textContent = fmt(Math.floor(mg / doseMg + 1e-9), 0) + "×";
+  $("oFill").style.width = Math.min(100, units / cap * 100) + "%";
+  w.textContent = units > cap ? `Die Dosis passt nicht in eine ${fmt(syr,1)}-ml-Spritze – größere Spritze wählen oder weniger Wasser verwenden.`
+    : units < 2 ? "Sehr kleines Volumen – schwer genau abzumessen. Mehr Wasser verwenden, um die Lösung zu verdünnen."
+    : doseMg > mg ? "Die Dosis ist größer als die gesamte Wirkstoffmenge in der Flasche." : "";
+}
+["cMg","cMl","cDose","cDoseU","cSyr"].forEach(id => $(id).addEventListener("input", rechnen));
+document.querySelector(".chips").onclick = e => { const v = e.target.dataset.v; if (v){ $("cMl").value = v; rechnen(); } };
+rechnen();
 
 render(); laden();
 document.addEventListener("visibilitychange", () => { if (!document.hidden) laden(); });
